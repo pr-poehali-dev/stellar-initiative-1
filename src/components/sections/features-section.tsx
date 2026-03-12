@@ -246,7 +246,7 @@ export function FeaturesSection() {
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            Брусчатка <em className="italic text-foreground/70">в тон фасаду</em>
+            Тротуарный клинкер <em className="italic text-foreground/70">в тон фасаду</em>
           </motion.h3>
 
           <motion.p
