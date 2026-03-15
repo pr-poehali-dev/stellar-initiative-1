@@ -64,9 +64,13 @@ export function HeroSection() {
         {/* Logo */}
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="text-white font-serif text-2xl md:text-3xl tracking-wider font-bold hover:opacity-80 transition-opacity"
+          className="hover:opacity-80 transition-opacity"
         >
-          ВИС
+          <img
+            src="https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/1bdd031a-97d9-43eb-84a1-c2db0cced3f9.png"
+            alt="ВИС"
+            className="h-12 md:h-16 w-auto"
+          />
         </button>
 
         {/* Desktop nav links */}
