@@ -75,7 +75,7 @@ export function CallbackModal({ open, onClose }: CallbackModalProps) {
 
     try {
       const res = await fetch(
-        (await import("@/../func2url.json")).default["send-callback"],
+        (await import("@/../backend/func2url.json")).default["send-callback"],
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

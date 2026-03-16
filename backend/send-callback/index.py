@@ -26,9 +26,13 @@ def handler(event, context):
     if event.get('httpMethod') != 'POST':
         return {'statusCode': 405, 'headers': cors, 'body': json.dumps({'error': 'Method not allowed'})}
 
-    body = json.loads(event.get('body', '{}'))
-    name = body.get('name', '').strip()
-    phone = body.get('phone', '').strip()
+    try:
+        raw_body = event.get('body') or '{}'
+        body = json.loads(raw_body) if isinstance(raw_body, str) else raw_body
+    except (json.JSONDecodeError, TypeError):
+        body = {}
+    name = body.get('name', '').strip() if isinstance(body, dict) else ''
+    phone = body.get('phone', '').strip() if isinstance(body, dict) else ''
 
     if not name or not phone:
         return {'statusCode': 400, 'headers': cors, 'body': json.dumps({'error': 'name and phone are required'})}
