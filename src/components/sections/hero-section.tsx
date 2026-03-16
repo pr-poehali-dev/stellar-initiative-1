@@ -1,14 +1,6 @@
-import { useRef, useState } from "react"
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
+import { useRef } from "react"
+import { motion, useScroll, useTransform } from "framer-motion"
 import Icon from "@/components/ui/icon"
-
-const navLinks = [
-  { label: "О компании", href: "#about" },
-  { label: "Каталог", href: "#catalog" },
-  { label: "Объекты", href: "#objects" },
-  { label: "Преимущества", href: "#advantages" },
-  { label: "Контакты", href: "#contacts" },
-]
 
 function scrollToSection(id: string) {
   const el = document.getElementById(id)
@@ -19,7 +11,6 @@ function scrollToSection(id: string) {
 
 export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const [menuOpen, setMenuOpen] = useState(false)
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -32,7 +23,7 @@ export function HeroSection() {
   return (
     <section
       ref={containerRef}
-      className="relative h-screen w-full overflow-hidden"
+      className="relative h-[calc(100vh-84px)] w-full overflow-hidden"
     >
       {/* Background image with cinematic zoom */}
       <motion.div
@@ -53,78 +44,6 @@ export function HeroSection() {
         className="absolute inset-0 bg-black"
         style={{ opacity: overlayOpacity }}
       />
-
-      {/* Navigation */}
-      <motion.nav
-        className="absolute top-0 left-0 right-0 z-30 px-6 md:px-12 py-6 flex items-center justify-between"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.3 }}
-      >
-        {/* Logo */}
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="hover:opacity-80 transition-opacity"
-        >
-          <img
-            src="https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/1bdd031a-97d9-43eb-84a1-c2db0cced3f9.png"
-            alt="ВИС"
-            className="h-12 md:h-16 w-auto"
-          />
-        </button>
-
-        {/* Desktop nav links */}
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <button
-              key={link.href}
-              onClick={() => scrollToSection(link.href.replace("#", ""))}
-              className="text-white/80 hover:text-white text-sm tracking-wide uppercase transition-colors duration-300"
-            >
-              {link.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Mobile hamburger */}
-        <button
-          className="md:hidden text-white z-50 relative"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Меню"
-        >
-          <Icon name={menuOpen ? "X" : "Menu"} size={28} />
-        </button>
-      </motion.nav>
-
-      {/* Mobile menu overlay */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            className="fixed inset-0 z-40 bg-black/95 flex flex-col items-center justify-center gap-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            {navLinks.map((link, i) => (
-              <motion.button
-                key={link.href}
-                onClick={() => {
-                  setMenuOpen(false)
-                  setTimeout(() => scrollToSection(link.href.replace("#", "")), 300)
-                }}
-                className="text-white text-2xl font-serif tracking-wide hover:text-white/70 transition-colors"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                transition={{ duration: 0.3, delay: i * 0.05 }}
-              >
-                {link.label}
-              </motion.button>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Hero content */}
       <motion.div
