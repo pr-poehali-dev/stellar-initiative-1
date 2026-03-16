@@ -1,66 +1,108 @@
-import { useEffect, useState } from "react"
-import { motion } from "framer-motion"
+import { useEffect, useRef, useState, useCallback } from "react"
+
+const TAIL_LENGTH = 8
+const TAIL_FADE_STEP = 1 / (TAIL_LENGTH + 1)
 
 export function CustomCursor() {
-  const [position, setPosition] = useState({ x: 0, y: 0 })
+  const dotRef = useRef<HTMLDivElement>(null)
+  const tailRefs = useRef<(HTMLDivElement | null)[]>([])
+  const pos = useRef({ x: -100, y: -100 })
+  const tailPositions = useRef<{ x: number; y: number }[]>(
+    Array.from({ length: TAIL_LENGTH }, () => ({ x: -100, y: -100 }))
+  )
+  const raf = useRef<number>(0)
   const [isHovering, setIsHovering] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setPosition({ x: e.clientX, y: e.clientY })
-      setIsVisible(true)
+  const animate = useCallback(() => {
+    const dot = dotRef.current
+    if (dot) {
+      const size = isHovering ? 40 : 8
+      const offset = size / 2
+      dot.style.transform = `translate(${pos.current.x - offset}px, ${pos.current.y - offset}px)`
+      dot.style.width = `${size}px`
+      dot.style.height = `${size}px`
+      dot.style.backgroundColor = isHovering ? "transparent" : "#8B5E3C"
+      dot.style.borderWidth = isHovering ? "1px" : "0"
+      dot.style.opacity = isVisible ? "1" : "0"
     }
 
-    const handleMouseEnter = () => setIsVisible(true)
-    const handleMouseLeave = () => setIsVisible(false)
+    for (let i = TAIL_LENGTH - 1; i > 0; i--) {
+      tailPositions.current[i] = { ...tailPositions.current[i - 1] }
+    }
+    tailPositions.current[0] = { ...pos.current }
 
-    const handleHoverStart = () => setIsHovering(true)
-    const handleHoverEnd = () => setIsHovering(false)
+    tailRefs.current.forEach((el, i) => {
+      if (!el) return
+      const tp = tailPositions.current[i]
+      const scale = 1 - (i + 1) * 0.08
+      const opacity = isVisible && !isHovering ? (1 - (i + 1) * TAIL_FADE_STEP) * 0.5 : 0
+      el.style.transform = `translate(${tp.x - 3}px, ${tp.y - 3}px) scale(${scale})`
+      el.style.opacity = `${opacity}`
+    })
 
-    document.addEventListener("mousemove", handleMouseMove)
-    document.addEventListener("mouseenter", handleMouseEnter)
-    document.addEventListener("mouseleave", handleMouseLeave)
+    raf.current = requestAnimationFrame(animate)
+  }, [isHovering, isVisible])
 
-    const clickables = document.querySelectorAll("a, button, [data-clickable]")
-    clickables.forEach((el) => {
-      el.addEventListener("mouseenter", handleHoverStart)
-      el.addEventListener("mouseleave", handleHoverEnd)
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      pos.current = { x: e.clientX, y: e.clientY }
+      setIsVisible(true)
+    }
+    const onEnter = () => setIsVisible(true)
+    const onLeave = () => setIsVisible(false)
+    const onHoverIn = () => setIsHovering(true)
+    const onHoverOut = () => setIsHovering(false)
+
+    document.addEventListener("mousemove", onMove)
+    document.addEventListener("mouseenter", onEnter)
+    document.addEventListener("mouseleave", onLeave)
+
+    const observer = new MutationObserver(() => {
+      document.querySelectorAll("a, button, [data-clickable]").forEach((el) => {
+        el.removeEventListener("mouseenter", onHoverIn)
+        el.removeEventListener("mouseleave", onHoverOut)
+        el.addEventListener("mouseenter", onHoverIn)
+        el.addEventListener("mouseleave", onHoverOut)
+      })
+    })
+    observer.observe(document.body, { childList: true, subtree: true })
+
+    document.querySelectorAll("a, button, [data-clickable]").forEach((el) => {
+      el.addEventListener("mouseenter", onHoverIn)
+      el.addEventListener("mouseleave", onHoverOut)
     })
 
     return () => {
-      document.removeEventListener("mousemove", handleMouseMove)
-      document.removeEventListener("mouseenter", handleMouseEnter)
-      document.removeEventListener("mouseleave", handleMouseLeave)
-      clickables.forEach((el) => {
-        el.removeEventListener("mouseenter", handleHoverStart)
-        el.removeEventListener("mouseleave", handleHoverEnd)
-      })
+      document.removeEventListener("mousemove", onMove)
+      document.removeEventListener("mouseenter", onEnter)
+      document.removeEventListener("mouseleave", onLeave)
+      observer.disconnect()
     }
   }, [])
 
+  useEffect(() => {
+    raf.current = requestAnimationFrame(animate)
+    return () => cancelAnimationFrame(raf.current)
+  }, [animate])
+
   return (
-    <motion.div
-      className="pointer-events-none fixed left-0 top-0 z-[9999] hidden md:block"
-      animate={{
-        x: position.x - (isHovering ? 20 : 4),
-        y: position.y - (isHovering ? 20 : 4),
-        opacity: isVisible ? 1 : 0,
-      }}
-      transition={{ type: "spring", stiffness: 500, damping: 28 }}
-    >
-      <motion.div
-        className="rounded-full"
-        animate={{
-          width: isHovering ? 40 : 8,
-          height: isHovering ? 40 : 8,
-          backgroundColor: isHovering ? "transparent" : "#8B5E3C",
-          borderWidth: isHovering ? 1 : 0,
-          borderColor: "#8B5E3C",
-        }}
-        transition={{ duration: 0.2 }}
-        style={{ borderStyle: "solid" }}
+    <div className="pointer-events-none fixed inset-0 z-[9999] hidden md:block">
+      {Array.from({ length: TAIL_LENGTH }).map((_, i) => (
+        <div
+          key={i}
+          ref={(el) => { tailRefs.current[i] = el }}
+          className="absolute left-0 top-0 w-[6px] h-[6px] rounded-full bg-[#8B5E3C]"
+          style={{ opacity: 0 }}
+        />
+      ))}
+      <div
+        ref={dotRef}
+        className="absolute left-0 top-0 rounded-full border-[#8B5E3C]"
+        style={{ borderStyle: "solid", borderWidth: 0, transition: "width 0.2s, height 0.2s, background-color 0.2s, border-width 0.2s" }}
       />
-    </motion.div>
+    </div>
   )
 }
+
+export default CustomCursor
