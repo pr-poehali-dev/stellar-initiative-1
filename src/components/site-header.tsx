@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import Icon from "@/components/ui/icon"
+import { CallbackModal } from "@/components/callback-modal"
 
 const navLinks = [
   { label: "О компании", href: "about" },
@@ -20,6 +21,7 @@ function scrollToSection(id: string) {
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [callbackOpen, setCallbackOpen] = useState(false)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50)
@@ -68,7 +70,7 @@ export function SiteHeader() {
           {/* Desktop buttons */}
           <div className="hidden lg:flex items-center gap-3">
             <button
-              onClick={() => scrollToSection("contacts")}
+              onClick={() => setCallbackOpen(true)}
               className="flex items-center gap-2 px-5 py-2.5 rounded-lg border-2 border-[#2e7d32] text-[#2e7d32] text-sm font-semibold hover:bg-[#2e7d32] hover:text-white transition-all duration-200"
             >
               <Icon name="Phone" size={16} />
@@ -127,7 +129,7 @@ export function SiteHeader() {
               <button
                 onClick={() => {
                   setMenuOpen(false)
-                  setTimeout(() => scrollToSection("contacts"), 300)
+                  setTimeout(() => setCallbackOpen(true), 300)
                 }}
                 className="flex items-center justify-center gap-2 px-5 py-3 rounded-lg border-2 border-[#2e7d32] text-[#2e7d32] text-sm font-semibold"
               >
@@ -150,6 +152,8 @@ export function SiteHeader() {
 
       {/* Spacer to prevent content from hiding behind fixed header */}
       <div className="h-[78px] md:h-[84px]" />
+
+      <CallbackModal open={callbackOpen} onClose={() => setCallbackOpen(false)} />
     </>
   )
 }
