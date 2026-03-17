@@ -51,17 +51,6 @@ export function HeroSection() {
         style={{ y: textY }}
       >
         {/* Badge */}
-        <motion.div
-          className="mb-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-        >
-          <span className="inline-block text-white/60 text-xs md:text-sm tracking-[0.3em] uppercase border border-white/20 px-5 py-2 rounded-full backdrop-blur-sm">
-            Облицовочный кирпич
-          </span>
-        </motion.div>
-
         {/* Headline */}
         <motion.h1
           className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif text-white leading-[1.1] max-w-5xl"
