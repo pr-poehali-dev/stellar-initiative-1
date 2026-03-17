@@ -84,30 +84,7 @@ export function HeroSection() {
           Облицовочный кирпич от ведущих производителей — для домов, которые запоминаются
         </motion.p>
 
-        {/* Buttons */}
-        <motion.div
-          className="mt-10 md:mt-12 flex flex-col sm:flex-row gap-4"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.2 }}
-        >
-          <button
-            onClick={() => scrollToSection("contacts")}
-            className="group relative px-8 py-4 bg-white text-black text-sm tracking-wide uppercase font-medium rounded-sm overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-white/10"
-          >
-            <span className="relative z-10 flex items-center gap-2">
-              Оставить заявку
-              <Icon name="ArrowRight" size={16} className="transition-transform group-hover:translate-x-1" />
-            </span>
-          </button>
-          <button
-            onClick={() => scrollToSection("contacts")}
-            className="group px-8 py-4 border border-white/30 text-white text-sm tracking-wide uppercase font-medium rounded-sm hover:bg-white/10 hover:border-white/50 transition-all duration-300 flex items-center justify-center gap-2"
-          >
-            <Icon name="Phone" size={16} />
-            Заказать звонок
-          </button>
-        </motion.div>
+
       </motion.div>
 
       {/* Scroll indicator */}
