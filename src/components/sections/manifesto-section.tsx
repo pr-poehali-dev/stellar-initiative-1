@@ -142,7 +142,7 @@ export function ManifestoSection() {
                 <img
                   src="https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/files/b1711b9b-50ea-478b-b4c1-68ed96c930c3.jpg"
                   alt="Строительные объекты ВИС"
-                  className="w-full aspect-[4/5] object-cover"
+                  className="w-full aspect-[4/5] object-cover py-[52px] my-0 mx-[77px] px-[39px]"
                 />
               </motion.div>
 
