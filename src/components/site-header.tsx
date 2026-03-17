@@ -36,8 +36,8 @@ export function SiteHeader() {
           fixed top-0 left-0 right-0 z-50
           transition-all duration-500 ease-out
           ${scrolled
-            ? "bg-white shadow-[0_1px_8px_rgba(0,0,0,0.08)] translate-y-0"
-            : "bg-white translate-y-0"
+            ? "bg-white shadow-[0_1px_8px_rgba(0,0,0,0.08)]"
+            : "bg-transparent"
           }
         `}
       >
@@ -60,7 +60,7 @@ export function SiteHeader() {
               <button
                 key={link.href}
                 onClick={() => scrollToSection(link.href)}
-                className="text-[#333] hover:text-[#e67e22] text-[15px] font-medium tracking-wide transition-colors duration-200 whitespace-nowrap"
+                className={`${scrolled ? "text-[#333]" : "text-white"} hover:text-[#e67e22] text-[15px] font-medium tracking-wide transition-colors duration-200 whitespace-nowrap`}
               >
                 {link.label}
               </button>
@@ -71,7 +71,7 @@ export function SiteHeader() {
           <div className="hidden lg:flex items-center gap-3">
             <button
               onClick={() => setCallbackOpen(true)}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-lg border-2 border-[#2e7d32] text-[#2e7d32] text-sm font-semibold hover:bg-[#2e7d32] hover:text-white transition-all duration-200"
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-lg border-2 text-sm font-semibold transition-all duration-200 ${scrolled ? "border-[#2e7d32] text-[#2e7d32] hover:bg-[#2e7d32] hover:text-white" : "border-white text-white hover:bg-white/20"}`}
             >
               <Icon name="Phone" size={16} />
               Заказать звонок
@@ -86,7 +86,7 @@ export function SiteHeader() {
 
           {/* Mobile hamburger */}
           <button
-            className="lg:hidden text-[#333] z-50"
+            className={`lg:hidden z-50 ${scrolled ? "text-[#333]" : "text-white"}`}
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Меню"
           >
@@ -95,7 +95,7 @@ export function SiteHeader() {
         </div>
 
         {/* Bottom border when not scrolled */}
-        <div className={`h-px transition-opacity duration-300 ${scrolled ? "opacity-0" : "opacity-100"} bg-gray-200`} />
+        {scrolled && <div className="h-px bg-gray-200" />}
       </header>
 
       {/* Mobile menu overlay */}
@@ -150,8 +150,7 @@ export function SiteHeader() {
         )}
       </AnimatePresence>
 
-      {/* Spacer to prevent content from hiding behind fixed header */}
-      <div className="h-[78px] md:h-[84px]" />
+
 
       <CallbackModal open={callbackOpen} onClose={() => setCallbackOpen(false)} />
     </>
