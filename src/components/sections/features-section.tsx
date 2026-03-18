@@ -54,6 +54,11 @@ const imageMap: Record<string, string[]> = {
     `${CDN_BASE}/b1cdbe90-5397-4fdb-9d08-ae581c0093ba.jpeg`,
     `${CDN_BASE}/4595935f-3ca5-4b5b-a44e-c31286e6d9fe.jpeg`,
   ],
+  "Орион": [
+    `${CDN_BASE}/88f0ec6d-da85-4255-8cbb-574026b2d1d8.jpeg`,
+    `${CDN_BASE}/05ffdcc6-d1d1-4f71-a57c-3a7d2c766151.jpeg`,
+    `${CDN_BASE}/3f896762-747c-4216-8637-81e805fd7ad1.png`,
+  ],
 }
 
 function getImages(name: string): string[] | null {
