@@ -36,9 +36,9 @@ const imageMap: Record<string, [string, string, string]> = {
     `${CDN_BASE}/6a23ed2d-8970-41f3-b947-d080a0a73108.jpeg`,
   ],
   "Флэш Обжиг": [
-    `${CDN_BASE}/7e98ba2f-e16a-4939-bea6-434bc49c8ebc.png`,
-    `${CDN_BASE}/7c4d0c7a-857f-4538-98ba-15fc5f903baf.jpeg`,
-    `${CDN_BASE}/2009e7b5-7b5e-497a-8d0e-bdb120cb00ed.jpeg`,
+    `${CDN_BASE}/82e23dca-e410-4872-9650-51d385f2a24f.png`,
+    `${CDN_BASE}/fef39e09-294c-4043-95c3-790d7696881c.jpeg`,
+    `${CDN_BASE}/a510b57e-52ec-4fc9-a29c-0a83d421dc40.jpeg`,
   ],
   "Флеш Обжиг Антик": [
     `${CDN_BASE}/9f590ee4-9de6-4641-9e83-6142a9b69605.png`,
