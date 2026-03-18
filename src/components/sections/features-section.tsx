@@ -16,8 +16,21 @@ function deriveTag(name: string): string {
   return "Классик"
 }
 
+const CDN_BASE = "https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket"
+
+const imageMap: Record<string, [string, string, string]> = {
+  "Белый Антик": [
+    `${CDN_BASE}/24c78df7-28a5-4de0-b8f9-11e77bca5c12.jpeg`,
+    `${CDN_BASE}/5933d479-d817-4f96-b24a-07483eeeac6f.png`,
+    `${CDN_BASE}/fe444510-6226-42f0-a9b6-0e85fdf237ef.png`,
+  ],
+}
+
+function getImages(name: string): string[] | null {
+  return imageMap[name] || null
+}
+
 const brickCatalog: BrickItem[] = [
-  // Магма Керамик
   { manufacturer: "Магма Керамик", name: "Белый Антик", tag: deriveTag("Белый Антик") },
   { manufacturer: "Магма Керамик", name: "Ваниль Антик", tag: deriveTag("Ваниль Антик") },
   { manufacturer: "Магма Керамик", name: "Белый", tag: deriveTag("Белый") },
@@ -27,19 +40,15 @@ const brickCatalog: BrickItem[] = [
   { manufacturer: "Магма Керамик", name: "Флеш Графит", tag: deriveTag("Флеш Графит") },
   { manufacturer: "Магма Керамик", name: "Туман", tag: deriveTag("Туман") },
   { manufacturer: "Магма Керамик", name: "Орион", tag: deriveTag("Орион") },
-  // 5-й элемент
   { manufacturer: "5-й элемент", name: "Сокровище Кенигсберга", tag: deriveTag("Сокровище Кенигсберга") },
   { manufacturer: "5-й элемент", name: "Буря над Раушеном", tag: deriveTag("Буря над Раушеном") },
   { manufacturer: "5-й элемент", name: "Классик Мюнхен Руст", tag: deriveTag("Классик Мюнхен Руст") },
-  // Recke
   { manufacturer: "Recke", name: "5-32-00-0-00", tag: deriveTag("5-32-00-0-00") },
   { manufacturer: "Recke", name: "5-82-00-2-00", tag: deriveTag("5-82-00-2-00") },
   { manufacturer: "Recke", name: "5-82-2-12", tag: deriveTag("5-82-2-12") },
-  // ЖКЗ
   { manufacturer: "ЖКЗ", name: "Серый", tag: deriveTag("Серый") },
   { manufacturer: "ЖКЗ", name: "Солома", tag: deriveTag("Солома") },
   { manufacturer: "ЖКЗ", name: "Коричневый", tag: deriveTag("Коричневый") },
-  // Старый Оскол
   { manufacturer: "Старый Оскол", name: "Коричневый Рустик", tag: deriveTag("Коричневый Рустик") },
   { manufacturer: "Старый Оскол", name: "Солома Рустик", tag: deriveTag("Солома Рустик") },
   { manufacturer: "Старый Оскол", name: "Эмират", tag: deriveTag("Эмират") },
@@ -60,7 +69,76 @@ function scrollToSection(id: string) {
   }
 }
 
+function ImageCarousel({ images, tag }: { images: string[]; tag: string }) {
+  const [current, setCurrent] = useState(0)
+
+  const prev = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setCurrent((c) => (c === 0 ? images.length - 1 : c - 1))
+  }
+
+  const next = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setCurrent((c) => (c === images.length - 1 ? 0 : c + 1))
+  }
+
+  return (
+    <div className="relative aspect-[4/3] bg-gray-100 overflow-hidden">
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.img
+          key={current}
+          src={images[current]}
+          alt={`${tag} ${current + 1}`}
+          className="absolute inset-0 w-full h-full object-cover"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+        />
+      </AnimatePresence>
+
+      <div className="absolute top-3 left-3 z-10">
+        <span className="inline-block text-[10px] tracking-[0.15em] uppercase font-medium bg-white/90 backdrop-blur-sm text-foreground/70 px-3 py-1 rounded-sm">
+          {tag}
+        </span>
+      </div>
+
+      <button
+        onClick={prev}
+        className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center bg-white/80 backdrop-blur-sm rounded-full shadow-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-white"
+      >
+        <Icon name="ChevronLeft" size={16} />
+      </button>
+      <button
+        onClick={next}
+        className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center bg-white/80 backdrop-blur-sm rounded-full shadow-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-white"
+      >
+        <Icon name="ChevronRight" size={16} />
+      </button>
+
+      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex gap-1.5">
+        {images.map((_, i) => (
+          <button
+            key={i}
+            onClick={(e) => {
+              e.stopPropagation()
+              setCurrent(i)
+            }}
+            className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${
+              i === current ? "bg-white w-4" : "bg-white/50 hover:bg-white/80"
+            }`}
+          />
+        ))}
+      </div>
+
+      <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/5 transition-colors duration-300 pointer-events-none" />
+    </div>
+  )
+}
+
 function BrickCard({ item, index }: { item: BrickItem; index: number }) {
+  const images = getImages(item.name)
+
   return (
     <motion.div
       layout
@@ -71,26 +149,26 @@ function BrickCard({ item, index }: { item: BrickItem; index: number }) {
       whileHover={{ y: -6, scale: 1.02 }}
       className="group bg-background border border-border rounded-sm overflow-hidden transition-shadow duration-300 hover:shadow-xl hover:shadow-foreground/5"
     >
-      {/* Placeholder image */}
-      <div className="relative aspect-[4/3] bg-gradient-to-br from-gray-200 via-gray-100 to-gray-300 overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <Icon
-            name="Image"
-            size={32}
-            className="text-gray-300 group-hover:text-gray-400 transition-colors duration-300"
-          />
+      {images ? (
+        <ImageCarousel images={images} tag={item.tag} />
+      ) : (
+        <div className="relative aspect-[4/3] bg-gradient-to-br from-gray-200 via-gray-100 to-gray-300 overflow-hidden">
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Icon
+              name="Image"
+              size={32}
+              className="text-gray-300 group-hover:text-gray-400 transition-colors duration-300"
+            />
+          </div>
+          <div className="absolute top-3 left-3">
+            <span className="inline-block text-[10px] tracking-[0.15em] uppercase font-medium bg-white/90 backdrop-blur-sm text-foreground/70 px-3 py-1 rounded-sm">
+              {item.tag}
+            </span>
+          </div>
+          <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/5 transition-colors duration-300" />
         </div>
-        {/* Tag badge */}
-        <div className="absolute top-3 left-3">
-          <span className="inline-block text-[10px] tracking-[0.15em] uppercase font-medium bg-white/90 backdrop-blur-sm text-foreground/70 px-3 py-1 rounded-sm">
-            {item.tag}
-          </span>
-        </div>
-        {/* Hover overlay */}
-        <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/5 transition-colors duration-300" />
-      </div>
+      )}
 
-      {/* Card body */}
       <div className="p-5">
         <p className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground font-medium">
           {item.manufacturer}
@@ -114,7 +192,7 @@ function BrickCard({ item, index }: { item: BrickItem; index: number }) {
   )
 }
 
-export function FeaturesSection() {
+export default function FeaturesSection() {
   const [activeFilter, setActiveFilter] = useState("Все")
 
   const filteredBricks =
@@ -124,13 +202,11 @@ export function FeaturesSection() {
 
   return (
     <section id="catalog" className="relative bg-background overflow-hidden">
-      {/* Top divider */}
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="h-px bg-foreground/10" />
       </div>
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 py-24 md:py-32 lg:py-40">
-        {/* Section label */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -143,7 +219,6 @@ export function FeaturesSection() {
           </span>
         </motion.div>
 
-        {/* Heading */}
         <motion.h2
           className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-serif leading-[1.15] text-foreground max-w-3xl"
           initial={{ opacity: 0, y: 40 }}
@@ -156,7 +231,6 @@ export function FeaturesSection() {
           <em className="italic text-foreground/70">будущего фасада</em>
         </motion.h2>
 
-        {/* Subheading */}
         <motion.p
           className="mt-6 text-muted-foreground text-base md:text-lg leading-relaxed max-w-2xl"
           initial={{ opacity: 0, y: 20 }}
@@ -167,7 +241,6 @@ export function FeaturesSection() {
           Подберите облицовочный кирпич по производителю, цвету и характеру фасада
         </motion.p>
 
-        {/* Filter tabs */}
         <motion.div
           className="mt-12 md:mt-16 flex flex-wrap gap-2 md:gap-3"
           initial={{ opacity: 0, y: 20 }}
@@ -194,7 +267,6 @@ export function FeaturesSection() {
           ))}
         </motion.div>
 
-        {/* Brick grid */}
         <div className="mt-10 md:mt-14">
           <AnimatePresence mode="wait">
             <motion.div
@@ -212,7 +284,6 @@ export function FeaturesSection() {
           </AnimatePresence>
         </div>
 
-        {/* Count indicator */}
         <motion.div
           className="mt-8 text-sm text-muted-foreground"
           initial={{ opacity: 0 }}
@@ -223,7 +294,6 @@ export function FeaturesSection() {
           {filteredBricks.length} {filteredBricks.length === 1 ? "позиция" : filteredBricks.length < 5 ? "позиции" : "позиций"}
         </motion.div>
 
-        {/* ===================== Paving stones mini-block ===================== */}
         <div className="mt-24 md:mt-32">
           <div className="h-px bg-foreground/10 mb-16 md:mb-20" />
 
@@ -266,7 +336,6 @@ export function FeaturesSection() {
           </div>
         </div>
 
-        {/* ===================== CTA block ===================== */}
         <motion.div
           className="mt-24 md:mt-32 relative"
           initial={{ opacity: 0, y: 40 }}
@@ -275,7 +344,6 @@ export function FeaturesSection() {
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
         >
           <div className="bg-foreground rounded-sm px-8 md:px-16 py-14 md:py-20 text-center">
-            {/* Decorative corner accents */}
             <div className="absolute top-6 left-6 md:top-8 md:left-8 w-10 h-10 border-t border-l border-background/15" />
             <div className="absolute bottom-6 right-6 md:bottom-8 md:right-8 w-10 h-10 border-b border-r border-background/15" />
 
