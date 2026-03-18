@@ -45,6 +45,11 @@ const imageMap: Record<string, [string, string, string]> = {
     `${CDN_BASE}/68f97e41-7f20-4751-a5b8-97bcc91d4d6b.jpeg`,
     `${CDN_BASE}/b1500a6b-0c3d-4e84-b88e-c337368d4356.jpeg`,
   ],
+  "Флеш Графит Антик": [
+    `${CDN_BASE}/591866d5-9b03-4af7-a092-e9da215c1226.jpeg`,
+    `${CDN_BASE}/441c3117-842b-49c4-accd-8a2f264de8f8.png`,
+    `${CDN_BASE}/11d2bc15-bab7-4b59-b479-e0f6160cdc53.jpeg`,
+  ],
 }
 
 function getImages(name: string): string[] | null {
