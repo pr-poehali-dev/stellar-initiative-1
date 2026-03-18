@@ -1,5 +1,6 @@
-import { useState } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import { createPortal } from "react-dom"
 import Icon from "@/components/ui/icon"
 
 interface BrickItem {
@@ -69,8 +70,110 @@ function scrollToSection(id: string) {
   }
 }
 
+function ImageLightbox({
+  images,
+  startIndex,
+  onClose,
+}: {
+  images: string[]
+  startIndex: number
+  onClose: () => void
+}) {
+  const [current, setCurrent] = useState(startIndex)
+
+  const prev = useCallback(() => {
+    setCurrent((c) => (c === 0 ? images.length - 1 : c - 1))
+  }, [images.length])
+
+  const next = useCallback(() => {
+    setCurrent((c) => (c === images.length - 1 ? 0 : c + 1))
+  }, [images.length])
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose()
+      if (e.key === "ArrowLeft") prev()
+      if (e.key === "ArrowRight") next()
+    }
+    document.body.style.overflow = "hidden"
+    window.addEventListener("keydown", handleKey)
+    return () => {
+      document.body.style.overflow = ""
+      window.removeEventListener("keydown", handleKey)
+    }
+  }, [onClose, prev, next])
+
+  return createPortal(
+    <AnimatePresence>
+      <motion.div
+        className="fixed inset-0 z-[9999] flex items-center justify-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
+      >
+        <div className="absolute inset-0 bg-black/90" onClick={onClose} />
+
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full transition-colors duration-200"
+        >
+          <Icon name="X" size={20} className="text-white" />
+        </button>
+
+        <button
+          onClick={prev}
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full transition-colors duration-200"
+        >
+          <Icon name="ChevronLeft" size={24} className="text-white" />
+        </button>
+
+        <button
+          onClick={next}
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full transition-colors duration-200"
+        >
+          <Icon name="ChevronRight" size={24} className="text-white" />
+        </button>
+
+        <div className="relative z-10 max-w-[90vw] max-h-[85vh]" onClick={(e) => e.stopPropagation()}>
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.img
+              key={current}
+              src={images[current]}
+              alt={`Изображение ${current + 1}`}
+              className="max-w-[90vw] max-h-[85vh] object-contain rounded-sm"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+            />
+          </AnimatePresence>
+        </div>
+
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex gap-2">
+          {images.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrent(i)}
+              className={`h-2 rounded-full transition-all duration-200 ${
+                i === current ? "bg-white w-6" : "bg-white/40 hover:bg-white/70 w-2"
+              }`}
+            />
+          ))}
+        </div>
+
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 text-white/60 text-sm">
+          {current + 1} / {images.length}
+        </div>
+      </motion.div>
+    </AnimatePresence>,
+    document.body
+  )
+}
+
 function ImageCarousel({ images, tag }: { images: string[]; tag: string }) {
   const [current, setCurrent] = useState(0)
+  const [lightboxOpen, setLightboxOpen] = useState(false)
 
   const prev = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -83,56 +186,69 @@ function ImageCarousel({ images, tag }: { images: string[]; tag: string }) {
   }
 
   return (
-    <div className="relative aspect-[4/3] bg-gray-100 overflow-hidden">
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.img
-          key={current}
-          src={images[current]}
-          alt={`${tag} ${current + 1}`}
-          className="absolute inset-0 w-full h-full object-cover"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.25 }}
-        />
-      </AnimatePresence>
-
-      <div className="absolute top-3 left-3 z-10">
-        <span className="inline-block text-[10px] tracking-[0.15em] uppercase font-medium bg-white/90 backdrop-blur-sm text-foreground/70 px-3 py-1 rounded-sm">
-          {tag}
-        </span>
-      </div>
-
-      <button
-        onClick={prev}
-        className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center bg-white/80 backdrop-blur-sm rounded-full shadow-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-white"
+    <>
+      <div
+        className="relative aspect-[4/3] bg-gray-100 overflow-hidden cursor-pointer"
+        onClick={() => setLightboxOpen(true)}
       >
-        <Icon name="ChevronLeft" size={16} />
-      </button>
-      <button
-        onClick={next}
-        className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center bg-white/80 backdrop-blur-sm rounded-full shadow-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-white"
-      >
-        <Icon name="ChevronRight" size={16} />
-      </button>
-
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex gap-1.5">
-        {images.map((_, i) => (
-          <button
-            key={i}
-            onClick={(e) => {
-              e.stopPropagation()
-              setCurrent(i)
-            }}
-            className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${
-              i === current ? "bg-white w-4" : "bg-white/50 hover:bg-white/80"
-            }`}
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.img
+            key={current}
+            src={images[current]}
+            alt={`${tag} ${current + 1}`}
+            className="absolute inset-0 w-full h-full object-cover"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
           />
-        ))}
+        </AnimatePresence>
+
+        <div className="absolute top-3 left-3 z-10">
+          <span className="inline-block text-[10px] tracking-[0.15em] uppercase font-medium bg-white/90 backdrop-blur-sm text-foreground/70 px-3 py-1 rounded-sm">
+            {tag}
+          </span>
+        </div>
+
+        <button
+          onClick={prev}
+          className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center bg-white/80 backdrop-blur-sm rounded-full shadow-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-white"
+        >
+          <Icon name="ChevronLeft" size={16} />
+        </button>
+        <button
+          onClick={next}
+          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center bg-white/80 backdrop-blur-sm rounded-full shadow-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-white"
+        >
+          <Icon name="ChevronRight" size={16} />
+        </button>
+
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex gap-1.5">
+          {images.map((_, i) => (
+            <button
+              key={i}
+              onClick={(e) => {
+                e.stopPropagation()
+                setCurrent(i)
+              }}
+              className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${
+                i === current ? "bg-white w-4" : "bg-white/50 hover:bg-white/80"
+              }`}
+            />
+          ))}
+        </div>
+
+        <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/5 transition-colors duration-300 pointer-events-none" />
       </div>
 
-      <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/5 transition-colors duration-300 pointer-events-none" />
-    </div>
+      {lightboxOpen && (
+        <ImageLightbox
+          images={images}
+          startIndex={current}
+          onClose={() => setLightboxOpen(false)}
+        />
+      )}
+    </>
   )
 }
 
