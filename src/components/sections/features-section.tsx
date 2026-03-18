@@ -19,7 +19,7 @@ function deriveTag(name: string): string {
 
 const CDN_BASE = "https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket"
 
-const imageMap: Record<string, [string, string, string]> = {
+const imageMap: Record<string, string[]> = {
   "Белый Антик": [
     `${CDN_BASE}/24c78df7-28a5-4de0-b8f9-11e77bca5c12.jpeg`,
     `${CDN_BASE}/5933d479-d817-4f96-b24a-07483eeeac6f.png`,
@@ -49,6 +49,10 @@ const imageMap: Record<string, [string, string, string]> = {
     `${CDN_BASE}/591866d5-9b03-4af7-a092-e9da215c1226.jpeg`,
     `${CDN_BASE}/441c3117-842b-49c4-accd-8a2f264de8f8.png`,
     `${CDN_BASE}/11d2bc15-bab7-4b59-b479-e0f6160cdc53.jpeg`,
+  ],
+  "Туман": [
+    `${CDN_BASE}/b1cdbe90-5397-4fdb-9d08-ae581c0093ba.jpeg`,
+    `${CDN_BASE}/4595935f-3ca5-4b5b-a44e-c31286e6d9fe.jpeg`,
   ],
 }
 
