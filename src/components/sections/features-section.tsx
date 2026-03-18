@@ -59,6 +59,11 @@ const imageMap: Record<string, string[]> = {
     `${CDN_BASE}/05ffdcc6-d1d1-4f71-a57c-3a7d2c766151.jpeg`,
     `${CDN_BASE}/3f896762-747c-4216-8637-81e805fd7ad1.png`,
   ],
+  "Сокровище Кенигсберга": [
+    `${CDN_BASE}/3fa90279-8b05-41e8-bd41-a676cbeaa743.jpeg`,
+    `${CDN_BASE}/a0f420f9-242c-49a0-82ec-39f4bad22a5f.png`,
+    `${CDN_BASE}/58a85120-3bd9-4e05-91e4-d71a8730c795.jpeg`,
+  ],
 }
 
 function getImages(name: string): string[] | null {
