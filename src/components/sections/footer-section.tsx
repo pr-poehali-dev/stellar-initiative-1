@@ -189,9 +189,8 @@ export function FooterSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.8, delay: 0.25 }}
-            className="flex flex-col gap-5"
           >
-            <div className="relative w-full h-[320px] md:h-[380px] rounded-lg border border-border overflow-hidden">
+            <div className="relative w-full h-full min-h-[320px] md:min-h-[420px] rounded-lg border border-border overflow-hidden">
               <iframe
                 src="https://yandex.ru/map-widget/v1/-/CPF-mE51"
                 width="100%"
@@ -202,23 +201,6 @@ export function FooterSection() {
                 title="Яндекс Карта — ВостокИнвестСталь"
               />
             </div>
-
-            <motion.button
-              onClick={() => setIsModalOpen(true)}
-              className="group relative w-full px-8 py-4 bg-gradient-to-r from-amber-700 via-amber-600 to-amber-700 text-white text-sm tracking-wide uppercase font-medium rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-amber-600/20 flex items-center justify-center gap-2"
-              whileHover={{ scale: 1.01 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <span className="absolute inset-0 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <span className="relative flex items-center gap-2">
-                Оставить заявку
-                <Icon
-                  name="ArrowRight"
-                  size={16}
-                  className="transition-transform duration-200 group-hover:translate-x-1"
-                />
-              </span>
-            </motion.button>
           </motion.div>
         </div>
 
