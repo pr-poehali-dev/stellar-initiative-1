@@ -333,12 +333,16 @@ export function FooterSection() {
             <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10">
               <motion.button
                 onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                className="font-serif text-3xl md:text-4xl font-bold text-foreground tracking-wider hover:opacity-70 transition-opacity"
+                className="hover:opacity-70 transition-opacity"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
               >
-                ВИС
+                <img
+                  src="https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/57a1d657-6eb0-4ac3-b893-52aa33428e12.png"
+                  alt="ВИС"
+                  className="h-12 md:h-14 w-auto"
+                />
               </motion.button>
 
               <nav className="flex flex-wrap items-center justify-center gap-5 md:gap-6">
