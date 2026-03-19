@@ -549,71 +549,7 @@ export default function FeaturesSection() {
           </div>
         </div>
 
-        <motion.div
-          className="mt-24 md:mt-32 relative"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <div className="bg-foreground rounded-sm px-8 md:px-16 py-14 md:py-20 text-center">
-            <div className="absolute top-6 left-6 md:top-8 md:left-8 w-10 h-10 border-t border-l border-background/15" />
-            <div className="absolute bottom-6 right-6 md:bottom-8 md:right-8 w-10 h-10 border-b border-r border-background/15" />
 
-            <motion.h3
-              className="text-2xl sm:text-3xl md:text-4xl font-serif text-background leading-tight"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.1 }}
-            >
-              Не знаете, какой кирпич выбрать?
-            </motion.h3>
-
-            <motion.p
-              className="mt-4 text-background/60 text-base md:text-lg max-w-lg mx-auto"
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              Подберём вариант под стиль дома, цвет кровли и бюджет
-            </motion.p>
-
-            <motion.div
-              className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.35 }}
-            >
-              <button
-                onClick={() => scrollToSection("contacts")}
-                className="group px-7 py-3.5 bg-background text-foreground text-sm tracking-wide uppercase font-medium rounded-sm hover:bg-background/90 transition-all duration-300 flex items-center gap-2"
-              >
-                Подобрать кирпич
-                <Icon
-                  name="ArrowRight"
-                  size={15}
-                  className="transition-transform group-hover:translate-x-1"
-                />
-              </button>
-              <button
-                onClick={() => scrollToSection("contacts")}
-                className="px-7 py-3.5 border border-background/30 text-background text-sm tracking-wide uppercase font-medium rounded-sm hover:bg-background/10 hover:border-background/50 transition-all duration-300"
-              >
-                Получить консультацию
-              </button>
-              <button
-                onClick={() => scrollToSection("contacts")}
-                className="px-7 py-3.5 border border-background/30 text-background text-sm tracking-wide uppercase font-medium rounded-sm hover:bg-background/10 hover:border-background/50 transition-all duration-300 flex items-center gap-2"
-              >
-                <Icon name="Tag" size={15} />
-                Узнать цену
-              </button>
-            </motion.div>
-          </div>
-        </motion.div>
       </div>
     </section>
   )
