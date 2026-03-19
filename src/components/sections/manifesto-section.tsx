@@ -17,7 +17,6 @@ export function ManifestoSection() {
     offset: ["start end", "end start"],
   })
 
-  const imageY = useTransform(scrollYProgress, [0, 1], [60, -60])
   const lineWidth = useTransform(scrollYProgress, [0.1, 0.5], ["0%", "100%"])
 
   return (
@@ -48,9 +47,44 @@ export function ManifestoSection() {
           </span>
         </motion.div>
 
-        {/* Main content grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-start">
-          {/* Left column — text */}
+        {/* Hero image — full width horizontal */}
+        <motion.div
+          className="relative overflow-hidden rounded-sm mb-14 md:mb-20"
+          initial={{ opacity: 0, scale: 0.98 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <motion.div
+            className="overflow-hidden"
+            initial={{ clipPath: "inset(100% 0 0 0)" }}
+            whileInView={{ clipPath: "inset(0% 0 0 0)" }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+          >
+            <img
+              src="https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/c866e475-b682-47d0-a573-b7e8ded61e55.jpeg"
+              alt="Склад стройматериалов ВИС"
+              className="w-full aspect-[21/9] object-cover"
+            />
+          </motion.div>
+          <div className="absolute top-4 right-4 w-12 h-12 border-t border-r border-white/20" />
+          <div className="absolute bottom-4 left-4 w-12 h-12 border-b border-l border-white/20" />
+          <motion.div
+            className="absolute bottom-4 right-4 md:bottom-6 md:right-6 bg-background/90 backdrop-blur-sm px-5 py-3 shadow-lg"
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+          >
+            <span className="text-[10px] md:text-xs tracking-[0.2em] uppercase text-muted-foreground">
+              С 2003 года
+            </span>
+          </motion.div>
+        </motion.div>
+
+        {/* Text content */}
+        <div className="max-w-4xl">
           <div ref={textRef}>
             {/* Heading */}
             <motion.h2
@@ -118,52 +152,6 @@ export function ManifestoSection() {
               ))}
             </motion.div>
           </div>
-
-          {/* Right column — image */}
-          <motion.div
-            className="relative lg:sticky lg:top-32"
-            style={{ y: imageY }}
-          >
-            <motion.div
-              className="relative overflow-hidden rounded-sm"
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            >
-              {/* Image reveal mask */}
-              <motion.div
-                className="overflow-hidden"
-                initial={{ clipPath: "inset(100% 0 0 0)" }}
-                whileInView={{ clipPath: "inset(0% 0 0 0)" }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-              >
-                <img
-                  src="https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/files/b1711b9b-50ea-478b-b4c1-68ed96c930c3.jpg"
-                  alt="Строительные объекты ВИС"
-                  className="w-full aspect-[4/5] object-cover py-[52px] my-0 mx-[77px] px-[39px]"
-                />
-              </motion.div>
-
-              {/* Decorative corner accent */}
-              <div className="absolute top-4 right-4 w-12 h-12 border-t border-r border-foreground/20" />
-              <div className="absolute bottom-4 left-4 w-12 h-12 border-b border-l border-foreground/20" />
-            </motion.div>
-
-            {/* Floating label */}
-            <motion.div
-              className="absolute -bottom-6 -left-4 md:-left-8 bg-background px-5 py-3 shadow-lg"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-            >
-              <span className="text-[10px] md:text-xs tracking-[0.2em] uppercase text-muted-foreground">
-                С 2003 года
-              </span>
-            </motion.div>
-          </motion.div>
         </div>
       </div>
     </section>
