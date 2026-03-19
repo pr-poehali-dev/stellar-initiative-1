@@ -74,8 +74,9 @@ const imageMap: Record<string, string[]> = {
     `${CDN_BASE}/d57496ba-7f3d-41b3-b74a-9db1b2a293f6.jpg`,
   ],
   "Мюнхен": [
-    `${CDN_BASE}/c3c986a2-2485-45e0-bae5-4725d43cc9cb.jpeg`,
-    `${CDN_BASE}/d57496ba-7f3d-41b3-b74a-9db1b2a293f6.jpg`,
+    "https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/833e8746-b9e5-4bcb-8dff-13bc87988565.jpg",
+    "https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/add9d3f6-0777-42e4-b69e-67ceaac8dd2f.jpg",
+    "https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/a07de057-a07a-426a-bc54-55ad5f95e004.jpg",
   ],
 }
 
