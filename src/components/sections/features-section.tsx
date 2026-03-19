@@ -83,6 +83,11 @@ const imageMap: Record<string, string[]> = {
     `${CDN_BASE}/c7dc2dfc-3d68-4332-beea-3cc64fbdb3f6.jpg`,
     `${CDN_BASE}/33b1aa1d-7862-461a-aff5-40a0ce928465.jpg`,
   ],
+  "5-82-00-2-12": [
+    `${CDN_BASE}/9e6d8ed4-c7ff-4a44-8cc2-8880cb4f67ab.jpg`,
+    `${CDN_BASE}/d606f69c-1da1-4b28-b09b-7c127535b54f.jpg`,
+    `${CDN_BASE}/2d45f9db-aca1-4567-a4e7-511f26f13276.jpg`,
+  ],
   "Красный": [
     "https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/e70f1b3d-0035-454d-80ed-fe0f628cc015.jpg",
     "https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/5fb2402e-d376-4004-bb6a-02e5fc481ca1.jpg",
@@ -109,7 +114,7 @@ const brickCatalog: BrickItem[] = [
   { manufacturer: "5-й элемент", name: "Классик Мюнхен Руст", tag: deriveTag("Классик Мюнхен Руст") },
   { manufacturer: "Recke", name: "5-32-00-0-00", tag: deriveTag("5-32-00-0-00") },
   { manufacturer: "Recke", name: "5-82-00-2-00", tag: deriveTag("5-82-00-2-00") },
-  { manufacturer: "Recke", name: "5-82-2-12", tag: deriveTag("5-82-2-12") },
+  { manufacturer: "Recke", name: "5-82-00-2-12", tag: deriveTag("5-82-00-2-12") },
   { manufacturer: "ЖКЗ", name: "Серый", tag: deriveTag("Серый") },
   { manufacturer: "ЖКЗ", name: "Солома", tag: deriveTag("Солома") },
   { manufacturer: "ЖКЗ", name: "Коричневый", tag: deriveTag("Коричневый") },
