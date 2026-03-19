@@ -78,6 +78,11 @@ const imageMap: Record<string, string[]> = {
     "https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/add9d3f6-0777-42e4-b69e-67ceaac8dd2f.jpg",
     "https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/a07de057-a07a-426a-bc54-55ad5f95e004.jpg",
   ],
+  "Красный": [
+    "https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/e70f1b3d-0035-454d-80ed-fe0f628cc015.jpg",
+    "https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/5fb2402e-d376-4004-bb6a-02e5fc481ca1.jpg",
+    "https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/7b099f66-2c25-41bf-abed-64e2f7ae074a.jpg",
+  ],
 }
 
 function getImages(name: string): string[] | null {
@@ -110,7 +115,7 @@ const brickCatalog: BrickItem[] = [
 
 const pavingStones: BrickItem[] = [
   { manufacturer: "5-й элемент", name: "Мюнхен", tag: "Брусчатка" },
-  { manufacturer: "5-й элемент", name: "Позиция 2", tag: "Брусчатка" },
+  { manufacturer: "5-й элемент", name: "Красный", tag: "Брусчатка" },
   { manufacturer: "5-й элемент", name: "Позиция 3", tag: "Брусчатка" },
 ]
 
