@@ -106,6 +106,10 @@ const imageMap: Record<string, string[]> = {
     "https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/f0f2d435-672f-433d-8345-9b47289d3a48.png",
     "https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/5fd32c3a-24ea-4926-83b6-6d77b149a950.png",
   ],
+  "Коричневый": [
+    "https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/6cc37e23-a098-492c-b1b7-efa07fdae94b.png",
+    "https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/567bd0f1-753d-43a9-a9ee-4603b42c97c5.jpeg",
+  ],
 }
 
 function getImages(name: string): string[] | null {
