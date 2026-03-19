@@ -83,6 +83,11 @@ const imageMap: Record<string, string[]> = {
     `${CDN_BASE}/c7dc2dfc-3d68-4332-beea-3cc64fbdb3f6.jpg`,
     `${CDN_BASE}/33b1aa1d-7862-461a-aff5-40a0ce928465.jpg`,
   ],
+  "5-32-00-0-00": [
+    `${CDN_BASE}/29c969d7-4c2b-4d88-be55-b2044e769329.jpg`,
+    `${CDN_BASE}/561b6421-e350-4c18-ac67-31868377fda9.jpg`,
+    `${CDN_BASE}/886d0978-fed8-4296-83b0-ec00d0d7ccb3.jpg`,
+  ],
   "5-82-00-2-12": [
     `${CDN_BASE}/9e6d8ed4-c7ff-4a44-8cc2-8880cb4f67ab.jpg`,
     `${CDN_BASE}/d606f69c-1da1-4b28-b09b-7c127535b54f.jpg`,
