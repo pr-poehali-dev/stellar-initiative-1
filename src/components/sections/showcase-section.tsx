@@ -36,15 +36,21 @@ function ObjectCard({
       {/* Placeholder image area */}
       <div className="relative aspect-[4/5] bg-gradient-to-br from-gray-200 via-gray-100 to-gray-250 overflow-hidden">
         <motion.div
-          className="absolute inset-0"
+          className="absolute inset-0 bg-gradient-to-br from-gray-200 via-gray-150 to-gray-300"
           whileHover={{ scale: 1.06 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         >
-          <img
-            src="https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/fedab3ad-5f8e-4699-bb79-0702a05a1ced.jpeg"
-            alt="Фото объекта"
-            className="w-full h-full object-cover"
-          />
+          {/* Centered placeholder content */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+            <Icon
+              name="Camera"
+              size={28}
+              className="text-gray-300 group-hover:text-gray-400 transition-colors duration-500"
+            />
+            <span className="text-xs tracking-[0.2em] uppercase text-gray-400 group-hover:text-gray-500 transition-colors duration-500">
+              Фото объекта
+            </span>
+          </div>
         </motion.div>
 
         {/* Hover overlay gradient */}
