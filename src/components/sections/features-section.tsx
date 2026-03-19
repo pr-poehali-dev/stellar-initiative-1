@@ -73,6 +73,10 @@ const imageMap: Record<string, string[]> = {
     `${CDN_BASE}/c3c986a2-2485-45e0-bae5-4725d43cc9cb.jpeg`,
     `${CDN_BASE}/d57496ba-7f3d-41b3-b74a-9db1b2a293f6.jpg`,
   ],
+  "Мюнхен": [
+    `${CDN_BASE}/c3c986a2-2485-45e0-bae5-4725d43cc9cb.jpeg`,
+    `${CDN_BASE}/d57496ba-7f3d-41b3-b74a-9db1b2a293f6.jpg`,
+  ],
 }
 
 function getImages(name: string): string[] | null {
@@ -104,7 +108,7 @@ const brickCatalog: BrickItem[] = [
 ]
 
 const pavingStones: BrickItem[] = [
-  { manufacturer: "5-й элемент", name: "Позиция 1", tag: "Брусчатка" },
+  { manufacturer: "5-й элемент", name: "Мюнхен", tag: "Брусчатка" },
   { manufacturer: "5-й элемент", name: "Позиция 2", tag: "Брусчатка" },
   { manufacturer: "5-й элемент", name: "Позиция 3", tag: "Брусчатка" },
 ]
