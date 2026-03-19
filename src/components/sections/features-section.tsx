@@ -93,6 +93,10 @@ const imageMap: Record<string, string[]> = {
     `${CDN_BASE}/d606f69c-1da1-4b28-b09b-7c127535b54f.jpg`,
     `${CDN_BASE}/2d45f9db-aca1-4567-a4e7-511f26f13276.jpg`,
   ],
+  "Серый": [
+    `${CDN_BASE}/632dbb14-1a1c-4f10-a7ce-0c50234229f8.png`,
+    `${CDN_BASE}/1a309bd7-c2c3-41ad-937d-6e0861191031.jpeg`,
+  ],
   "Красный": [
     "https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/e70f1b3d-0035-454d-80ed-fe0f628cc015.jpg",
     "https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/5fb2402e-d376-4004-bb6a-02e5fc481ca1.jpg",
