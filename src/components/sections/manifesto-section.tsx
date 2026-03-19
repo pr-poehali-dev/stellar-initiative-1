@@ -70,17 +70,7 @@ export function ManifestoSection() {
           </motion.div>
           <div className="absolute top-4 right-4 w-12 h-12 border-t border-r border-white/20" />
           <div className="absolute bottom-4 left-4 w-12 h-12 border-b border-l border-white/20" />
-          <motion.div
-            className="absolute bottom-4 right-4 md:bottom-6 md:right-6 bg-background/90 backdrop-blur-sm px-5 py-3 shadow-lg"
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-          >
-            <span className="text-[10px] md:text-xs tracking-[0.2em] uppercase text-muted-foreground">
-              С 2003 года
-            </span>
-          </motion.div>
+
         </motion.div>
 
         {/* Text content */}
