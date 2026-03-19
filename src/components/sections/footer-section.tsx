@@ -163,14 +163,18 @@ export function FooterSection() {
                     ) : (
                       <div className="flex flex-wrap gap-3 mt-0.5">
                         <a
-                          href="#"
+                          href="https://wa.me/89147922784"
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="group/btn inline-flex items-center gap-2 px-4 py-2.5 border border-emerald-200/60 bg-emerald-50/50 rounded-lg text-sm text-foreground/70 hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 transition-all duration-300 hover:shadow-md hover:shadow-emerald-500/10"
                         >
                           <Icon name="MessageCircle" size={16} className="text-emerald-600 transition-transform duration-300 group-hover/btn:scale-110" />
                           WhatsApp
                         </a>
                         <a
-                          href="#"
+                          href="https://t.me/Yulia_Vis"
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="group/btn inline-flex items-center gap-2 px-4 py-2.5 border border-sky-200/60 bg-sky-50/50 rounded-lg text-sm text-foreground/70 hover:border-sky-300 hover:bg-sky-50 hover:text-sky-700 transition-all duration-300 hover:shadow-md hover:shadow-sky-500/10"
                         >
                           <Icon name="Send" size={16} className="text-sky-600 transition-transform duration-300 group-hover/btn:scale-110" />
@@ -185,7 +189,7 @@ export function FooterSection() {
                           <img
                             src="https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/b126d939-6763-4a47-bd88-84b64566a659.jpeg"
                             alt="MAX"
-                            className="w-4 h-4 rounded-sm object-cover transition-transform duration-300 group-hover/btn:scale-110"
+                            className="w-4 h-4 rounded-sm object-contain transition-transform duration-300 group-hover/btn:scale-110"
                           />
                           MAX
                         </a>
