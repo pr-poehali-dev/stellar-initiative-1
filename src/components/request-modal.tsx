@@ -21,12 +21,12 @@ export function RequestModal({ isOpen, onClose, productName }: RequestModalProps
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden"
-      if (productName) {
-        setFormData((prev) => ({
-          ...prev,
-          comment: `Интересует: ${productName}`,
-        }))
-      }
+      setIsSubmitted(false)
+      setFormData({
+        name: "",
+        phone: "",
+        comment: productName ? `Интересует: ${productName}` : "",
+      })
     } else {
       document.body.style.overflow = ""
     }
@@ -34,16 +34,6 @@ export function RequestModal({ isOpen, onClose, productName }: RequestModalProps
       document.body.style.overflow = ""
     }
   }, [isOpen, productName])
-
-  useEffect(() => {
-    if (!isOpen) {
-      setTimeout(() => {
-        setIsSubmitted(false)
-        setFormData({ name: "", phone: "", comment: "" })
-        setFocusedField(null)
-      }, 300)
-    }
-  }, [isOpen])
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
