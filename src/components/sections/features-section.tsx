@@ -96,7 +96,7 @@ const brickCatalog: BrickItem[] = [
   { manufacturer: "Магма Керамик", name: "Флэш Обжиг", tag: deriveTag("Флэш Обжиг") },
   { manufacturer: "Магма Керамик", name: "Флеш Обжиг Антик", tag: deriveTag("Флеш Обжиг Антик") },
   { manufacturer: "Магма Керамик", name: "Флеш Графит Антик", tag: deriveTag("Флеш Графит Антик") },
-  { manufacturer: "Магма Керамик", name: "Флеш Графит", tag: deriveTag("Флеш Графит") },
+
   { manufacturer: "Магма Керамик", name: "Туман", tag: deriveTag("Туман") },
   { manufacturer: "Магма Керамик", name: "Орион", tag: deriveTag("Орион") },
   { manufacturer: "5-й элемент", name: "Сокровище Кенигсберга", tag: deriveTag("Сокровище Кенигсберга") },
