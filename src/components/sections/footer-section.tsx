@@ -161,7 +161,7 @@ export function FooterSection() {
                     {item.content ? (
                       item.content
                     ) : (
-                      <div className="flex gap-3 mt-0.5">
+                      <div className="flex flex-wrap gap-3 mt-0.5">
                         <a
                           href="#"
                           className="group/btn inline-flex items-center gap-2 px-4 py-2.5 border border-emerald-200/60 bg-emerald-50/50 rounded-lg text-sm text-foreground/70 hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 transition-all duration-300 hover:shadow-md hover:shadow-emerald-500/10"
@@ -175,6 +175,19 @@ export function FooterSection() {
                         >
                           <Icon name="Send" size={16} className="text-sky-600 transition-transform duration-300 group-hover/btn:scale-110" />
                           Telegram
+                        </a>
+                        <a
+                          href="https://max.ru/u/f9LHodD0cOJeqBIEYMN3NMyf-Hx85yqfnOpRApJuFQvoU_sOxqtkoeqraow"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group/btn inline-flex items-center gap-2 px-4 py-2.5 border border-purple-200/60 bg-purple-50/50 rounded-lg text-sm text-foreground/70 hover:border-purple-300 hover:bg-purple-50 hover:text-purple-700 transition-all duration-300 hover:shadow-md hover:shadow-purple-500/10"
+                        >
+                          <img
+                            src="https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/b126d939-6763-4a47-bd88-84b64566a659.jpeg"
+                            alt="MAX"
+                            className="w-4 h-4 rounded-sm object-cover transition-transform duration-300 group-hover/btn:scale-110"
+                          />
+                          MAX
                         </a>
                       </div>
                     )}
