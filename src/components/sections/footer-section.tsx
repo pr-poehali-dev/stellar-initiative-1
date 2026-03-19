@@ -193,7 +193,7 @@ export function FooterSection() {
           >
             <div className="relative w-full h-[320px] md:h-[380px] rounded-lg border border-border overflow-hidden">
               <iframe
-                src="https://yandex.ru/map-widget/v1/?ll=132.185697%2C43.363587&mode=search&oid=1018637571&ol=biz&z=16"
+                src="https://yandex.ru/map-widget/v1/-/CPF-mE51"
                 width="100%"
                 height="100%"
                 frameBorder="0"
