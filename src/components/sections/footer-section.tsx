@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
 import Icon from "@/components/ui/icon"
+import { RequestModal } from "@/components/request-modal"
 
 function scrollToSection(id: string) {
   const el = document.getElementById(id)
@@ -83,16 +84,7 @@ const contactItems = [
 ]
 
 export function FooterSection() {
-  const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    comment: "",
-  })
-  const [focusedField, setFocusedField] = useState<string | null>(null)
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-  }
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   return (
     <footer id="contacts" className="relative bg-background overflow-hidden">
@@ -197,129 +189,42 @@ export function FooterSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.8, delay: 0.25 }}
+            className="flex flex-col gap-5"
           >
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div>
-                <label
-                  htmlFor="contact-name"
-                  className="block text-xs tracking-[0.2em] uppercase text-muted-foreground font-medium mb-2"
-                >
-                  Имя
-                </label>
-                <div className="relative">
-                  <div className={`absolute left-3.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-md flex items-center justify-center transition-all duration-300 ${focusedField === "name" ? "bg-amber-50 scale-110" : "bg-secondary"}`}>
-                    <Icon name="User" size={16} className={`transition-colors duration-300 ${focusedField === "name" ? "text-amber-600" : "text-muted-foreground/50"}`} />
-                  </div>
-                  <input
-                    id="contact-name"
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, name: e.target.value }))
-                    }
-                    onFocus={() => setFocusedField("name")}
-                    onBlur={() => setFocusedField(null)}
-                    placeholder="Ваше имя"
-                    className="w-full bg-secondary border border-border rounded-lg pl-14 pr-4 py-3.5 text-foreground placeholder:text-muted-foreground/50 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-400/50 transition-all duration-300 hover:border-foreground/20"
-                  />
-                </div>
-              </div>
+            <div className="relative w-full h-[320px] md:h-[380px] rounded-lg border border-border overflow-hidden">
+              <iframe
+                src="https://yandex.ru/map-widget/v1/?ll=132.185697%2C43.363587&mode=search&oid=1018637571&ol=biz&z=16"
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                allowFullScreen
+                className="absolute inset-0"
+                title="Яндекс Карта — ВостокИнвестСталь"
+              />
+            </div>
 
-              <div>
-                <label
-                  htmlFor="contact-phone"
-                  className="block text-xs tracking-[0.2em] uppercase text-muted-foreground font-medium mb-2"
-                >
-                  Телефон
-                </label>
-                <div className="relative">
-                  <div className={`absolute left-3.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-md flex items-center justify-center transition-all duration-300 ${focusedField === "phone" ? "bg-emerald-50 scale-110" : "bg-secondary"}`}>
-                    <Icon name="Phone" size={16} className={`transition-colors duration-300 ${focusedField === "phone" ? "text-emerald-600" : "text-muted-foreground/50"}`} />
-                  </div>
-                  <input
-                    id="contact-phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, phone: e.target.value }))
-                    }
-                    onFocus={() => setFocusedField("phone")}
-                    onBlur={() => setFocusedField(null)}
-                    placeholder="+7 (___) ___-__-__"
-                    className="w-full bg-secondary border border-border rounded-lg pl-14 pr-4 py-3.5 text-foreground placeholder:text-muted-foreground/50 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-400/50 transition-all duration-300 hover:border-foreground/20"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label
-                  htmlFor="contact-comment"
-                  className="block text-xs tracking-[0.2em] uppercase text-muted-foreground font-medium mb-2"
-                >
-                  Комментарий
-                </label>
-                <div className="relative">
-                  <div className={`absolute left-3.5 top-4 w-8 h-8 rounded-md flex items-center justify-center transition-all duration-300 ${focusedField === "comment" ? "bg-sky-50 scale-110" : "bg-secondary"}`}>
-                    <Icon name="MessageSquare" size={16} className={`transition-colors duration-300 ${focusedField === "comment" ? "text-sky-600" : "text-muted-foreground/50"}`} />
-                  </div>
-                  <textarea
-                    id="contact-comment"
-                    rows={4}
-                    value={formData.comment}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, comment: e.target.value }))
-                    }
-                    onFocus={() => setFocusedField("comment")}
-                    onBlur={() => setFocusedField(null)}
-                    placeholder="Расскажите, что вас интересует"
-                    className="w-full bg-secondary border border-border rounded-lg pl-14 pr-4 py-3.5 text-foreground placeholder:text-muted-foreground/50 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-400/50 transition-all duration-300 resize-none hover:border-foreground/20"
-                  />
-                </div>
-              </div>
-
-              <motion.button
-                type="submit"
-                className="group relative w-full px-8 py-4 bg-gradient-to-r from-amber-700 via-amber-600 to-amber-700 text-white text-sm tracking-wide uppercase font-medium rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-amber-600/20 flex items-center justify-center gap-2"
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <span className="absolute inset-0 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <span className="relative flex items-center gap-2">
-                  Отправить заявку
-                  <Icon
-                    name="ArrowRight"
-                    size={16}
-                    className="transition-transform duration-200 group-hover:translate-x-1"
-                  />
-                </span>
-              </motion.button>
-
-              <p className="text-xs text-muted-foreground/60 text-center pt-1">
-                Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
-              </p>
-            </form>
+            <motion.button
+              onClick={() => setIsModalOpen(true)}
+              className="group relative w-full px-8 py-4 bg-gradient-to-r from-amber-700 via-amber-600 to-amber-700 text-white text-sm tracking-wide uppercase font-medium rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-amber-600/20 flex items-center justify-center gap-2"
+              whileHover={{ scale: 1.01 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <span className="absolute inset-0 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <span className="relative flex items-center gap-2">
+                Оставить заявку
+                <Icon
+                  name="ArrowRight"
+                  size={16}
+                  className="transition-transform duration-200 group-hover:translate-x-1"
+                />
+              </span>
+            </motion.button>
           </motion.div>
         </div>
 
-        <motion.div
-          className="mt-20 md:mt-28"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.8, delay: 0.1 }}
-        >
-          <div className="relative w-full h-[300px] md:h-[400px] bg-gradient-to-br from-gray-200 via-gray-100 to-gray-200 rounded-sm border border-border overflow-hidden">
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-              <Icon name="Map" size={32} className="text-gray-300" />
-              <p className="text-sm text-muted-foreground/60 tracking-wide">
-                Карта — г. Артём, ул. Вокзальная, 114
-              </p>
-            </div>
-            <div className="absolute top-4 left-4 w-8 h-8 border-t border-l border-foreground/10" />
-            <div className="absolute bottom-4 right-4 w-8 h-8 border-b border-r border-foreground/10" />
-          </div>
-        </motion.div>
       </div>
+
+      <RequestModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
       <div className="relative">
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] pointer-events-none">

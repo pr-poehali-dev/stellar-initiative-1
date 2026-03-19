@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { createPortal } from "react-dom"
 import Icon from "@/components/ui/icon"
+import { RequestModal } from "@/components/request-modal"
 
 interface BrickItem {
   manufacturer: string
@@ -349,7 +350,7 @@ function ImageCarousel({ images, tag }: { images: string[]; tag: string }) {
   )
 }
 
-function BrickCard({ item, index }: { item: BrickItem; index: number }) {
+function BrickCard({ item, index, onRequestPrice }: { item: BrickItem; index: number; onRequestPrice: (name: string) => void }) {
   const images = getImages(item.name)
 
   return (
@@ -390,7 +391,7 @@ function BrickCard({ item, index }: { item: BrickItem; index: number }) {
           {item.name}
         </h3>
         <button
-          onClick={() => scrollToSection("contacts")}
+          onClick={() => onRequestPrice(item.name)}
           className="mt-4 inline-flex items-center gap-1.5 text-xs tracking-wide uppercase font-medium text-primary hover:text-primary/80 transition-colors duration-200 group/btn"
         >
           Узнать цену
@@ -407,6 +408,13 @@ function BrickCard({ item, index }: { item: BrickItem; index: number }) {
 
 export default function FeaturesSection() {
   const [activeFilter, setActiveFilter] = useState("Все")
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedProduct, setSelectedProduct] = useState<string | undefined>()
+
+  const handleRequestPrice = (name: string) => {
+    setSelectedProduct(name)
+    setIsModalOpen(true)
+  }
 
   const filteredBricks =
     activeFilter === "Все"
@@ -491,7 +499,7 @@ export default function FeaturesSection() {
               transition={{ duration: 0.3 }}
             >
               {filteredBricks.map((brick, i) => (
-                <BrickCard key={`${brick.manufacturer}-${brick.name}`} item={brick} index={i} />
+                <BrickCard key={`${brick.manufacturer}-${brick.name}`} item={brick} index={i} onRequestPrice={handleRequestPrice} />
               ))}
             </motion.div>
           </AnimatePresence>
@@ -544,13 +552,19 @@ export default function FeaturesSection() {
 
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
             {pavingStones.map((stone, i) => (
-              <BrickCard key={`paving-${stone.name}`} item={stone} index={i} />
+              <BrickCard key={`paving-${stone.name}`} item={stone} index={i} onRequestPrice={handleRequestPrice} />
             ))}
           </div>
         </div>
 
 
       </div>
+
+      <RequestModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        productName={selectedProduct}
+      />
     </section>
   )
 }

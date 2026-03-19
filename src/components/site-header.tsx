@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import Icon from "@/components/ui/icon"
 import { CallbackModal } from "@/components/callback-modal"
+import { RequestModal } from "@/components/request-modal"
 
 const navLinks = [
   { label: "О компании", href: "about" },
@@ -22,6 +23,7 @@ export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [callbackOpen, setCallbackOpen] = useState(false)
+  const [requestOpen, setRequestOpen] = useState(false)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50)
@@ -77,7 +79,7 @@ export function SiteHeader() {
               Заказать звонок
             </button>
             <button
-              onClick={() => scrollToSection("contacts")}
+              onClick={() => setRequestOpen(true)}
               className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#e67e22] text-white text-sm font-semibold hover:bg-[#d35400] transition-all duration-200"
             >
               Получить расчёт
@@ -139,7 +141,7 @@ export function SiteHeader() {
               <button
                 onClick={() => {
                   setMenuOpen(false)
-                  setTimeout(() => scrollToSection("contacts"), 300)
+                  setTimeout(() => setRequestOpen(true), 300)
                 }}
                 className="flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-[#e67e22] text-white text-sm font-semibold"
               >
@@ -153,6 +155,7 @@ export function SiteHeader() {
 
 
       <CallbackModal open={callbackOpen} onClose={() => setCallbackOpen(false)} />
+      <RequestModal isOpen={requestOpen} onClose={() => setRequestOpen(false)} />
     </>
   )
 }
