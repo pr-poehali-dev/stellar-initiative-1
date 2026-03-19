@@ -14,6 +14,7 @@ export function CallbackModal({ open, onClose }: CallbackModalProps) {
   const [loading, setLoading] = useState(false)
   const [sent, setSent] = useState(false)
   const [error, setError] = useState("")
+  const [focusedField, setFocusedField] = useState<string | null>(null)
 
   const isValid = name.trim().length >= 2 && phone.trim().length >= 6
 
@@ -99,6 +100,7 @@ export function CallbackModal({ open, onClose }: CallbackModalProps) {
       setPhone("")
       setSent(false)
       setError("")
+      setFocusedField(null)
     }, 300)
   }
 
@@ -124,17 +126,22 @@ export function CallbackModal({ open, onClose }: CallbackModalProps) {
             exit={{ scale: 0.95, opacity: 0, y: 10 }}
             transition={{ type: "spring", damping: 25, stiffness: 350 }}
           >
-            <div className="relative bg-gradient-to-r from-[#2e7d32] to-[#43a047] px-6 pt-6 pb-5">
+            <div className="relative bg-gradient-to-r from-amber-700 via-amber-600 to-amber-700 px-6 pt-6 pb-5 overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
               <button
                 onClick={handleClose}
-                className="absolute top-4 right-4 text-white/80 hover:text-white transition-colors"
+                className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white/80 hover:text-white hover:bg-white/20 transition-all duration-200"
               >
-                <Icon name="X" size={20} />
+                <Icon name="X" size={18} />
               </button>
-              <div className="flex items-center gap-3 mb-1">
-                <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                  <Icon name="Phone" size={20} />
-                </div>
+              <div className="relative flex items-center gap-3 mb-1">
+                <motion.div
+                  className="w-11 h-11 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/10"
+                  animate={{ rotate: [0, -3, 3, 0] }}
+                  transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+                >
+                  <Icon name="Phone" size={22} className="text-white" />
+                </motion.div>
                 <div>
                   <h3 className="text-white text-lg font-bold">Заказать звонок</h3>
                   <p className="text-white/80 text-sm">Перезвоним в течение 15 минут</p>
@@ -147,16 +154,20 @@ export function CallbackModal({ open, onClose }: CallbackModalProps) {
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                      Ваше имя <span className="text-red-500">*</span>
+                      Ваше имя <span className="text-rose-400">*</span>
                     </label>
                     <div className="relative">
-                      <Icon name="User" size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                      <div className={`absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 ${focusedField === "name" ? "bg-amber-50 scale-110" : "bg-gray-50"}`}>
+                        <Icon name="User" size={16} className={`transition-colors duration-300 ${focusedField === "name" ? "text-amber-600" : "text-gray-400"}`} />
+                      </div>
                       <input
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
+                        onFocus={() => setFocusedField("name")}
+                        onBlur={() => setFocusedField(null)}
                         placeholder="Введите ваше имя"
-                        className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-[15px] text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-[#2e7d32] focus:ring-2 focus:ring-[#2e7d32]/20 transition-all"
+                        className="w-full pl-13 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-[15px] text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-500/15 focus:bg-white transition-all duration-300"
                         autoFocus
                       />
                     </div>
@@ -164,38 +175,51 @@ export function CallbackModal({ open, onClose }: CallbackModalProps) {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                      Телефон <span className="text-red-500">*</span>
+                      Телефон <span className="text-rose-400">*</span>
                     </label>
                     <div className="relative">
-                      <Icon name="Phone" size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                      <div className={`absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 ${focusedField === "phone" ? "bg-emerald-50 scale-110" : "bg-gray-50"}`}>
+                        <Icon name="Phone" size={16} className={`transition-colors duration-300 ${focusedField === "phone" ? "text-emerald-600" : "text-gray-400"}`} />
+                      </div>
                       <input
                         type="tel"
                         value={phone}
                         onChange={handlePhoneChange}
+                        onFocus={() => setFocusedField("phone")}
+                        onBlur={() => setFocusedField(null)}
                         placeholder="+7 (___) ___-__-__"
-                        className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-[15px] text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-[#2e7d32] focus:ring-2 focus:ring-[#2e7d32]/20 transition-all"
+                        className="w-full pl-13 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-[15px] text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/15 focus:bg-white transition-all duration-300"
                       />
                     </div>
                   </div>
 
                   {error && (
-                    <p className="text-red-500 text-sm text-center">{error}</p>
+                    <motion.p
+                      className="text-red-500 text-sm text-center bg-red-50 rounded-lg py-2 px-3"
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      {error}
+                    </motion.p>
                   )}
 
-                  <button
+                  <motion.button
                     type="submit"
                     disabled={!isValid || loading}
-                    className="w-full py-3.5 rounded-xl bg-[#2e7d32] text-white font-semibold text-[15px] hover:bg-[#256b29] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 mt-1"
+                    className="group relative w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-700 via-amber-600 to-amber-700 text-white font-semibold text-[15px] disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-amber-600/25 flex items-center justify-center gap-2 mt-1"
+                    whileHover={{ scale: isValid ? 1.01 : 1 }}
+                    whileTap={{ scale: isValid ? 0.98 : 1 }}
                   >
+                    <span className="absolute inset-0 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     {loading ? (
-                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      <div className="relative w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                     ) : (
-                      <>
+                      <span className="relative flex items-center gap-2">
                         <Icon name="PhoneCall" size={18} />
                         Запросить обратный звонок
-                      </>
+                      </span>
                     )}
-                  </button>
+                  </motion.button>
 
                   <p className="text-xs text-gray-400 text-center leading-relaxed">
                     Нажимая кнопку, вы соглашаетесь с обработкой персональных данных
@@ -208,21 +232,28 @@ export function CallbackModal({ open, onClose }: CallbackModalProps) {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <div className="w-16 h-16 rounded-full bg-[#2e7d32]/10 flex items-center justify-center mb-4">
-                    <Icon name="CheckCircle" size={32} className="text-[#2e7d32]" />
-                  </div>
+                  <motion.div
+                    className="w-16 h-16 rounded-full bg-gradient-to-br from-emerald-100 to-emerald-50 flex items-center justify-center mb-4 shadow-lg shadow-emerald-500/15"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", damping: 12, stiffness: 200, delay: 0.1 }}
+                  >
+                    <Icon name="CheckCircle" size={32} className="text-emerald-600" />
+                  </motion.div>
                   <h4 className="text-lg font-bold text-gray-800 mb-2">
                     Спасибо за Ваше обращение!
                   </h4>
-                  <p className="text-gray-500 text-sm leading-relaxed mb-5">
-                    Мы с вами свяжемся в ближайшее время
+                  <p className="text-gray-500 text-sm mb-5 leading-relaxed">
+                    Мы перезвоним вам в&nbsp;ближайшее время.
                   </p>
-                  <button
+                  <motion.button
                     onClick={handleClose}
-                    className="px-8 py-2.5 rounded-xl border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 transition-colors"
+                    className="group px-6 py-2.5 rounded-xl border border-gray-200 text-sm font-medium text-gray-600 hover:border-amber-300 hover:text-amber-700 hover:bg-amber-50/50 transition-all duration-300"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                   >
                     Закрыть
-                  </button>
+                  </motion.button>
                 </motion.div>
               )}
             </div>
