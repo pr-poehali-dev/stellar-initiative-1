@@ -167,7 +167,7 @@ export function CallbackModal({ open, onClose }: CallbackModalProps) {
                         onFocus={() => setFocusedField("name")}
                         onBlur={() => setFocusedField(null)}
                         placeholder="Введите ваше имя"
-                        className="w-full pl-13 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-[15px] text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-500/15 focus:bg-white transition-all duration-300"
+                        className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-[15px] text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-500/15 focus:bg-white transition-all duration-300"
                         autoFocus
                       />
                     </div>
@@ -188,7 +188,7 @@ export function CallbackModal({ open, onClose }: CallbackModalProps) {
                         onFocus={() => setFocusedField("phone")}
                         onBlur={() => setFocusedField(null)}
                         placeholder="+7 (___) ___-__-__"
-                        className="w-full pl-13 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-[15px] text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/15 focus:bg-white transition-all duration-300"
+                        className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-[15px] text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/15 focus:bg-white transition-all duration-300"
                       />
                     </div>
                   </div>
