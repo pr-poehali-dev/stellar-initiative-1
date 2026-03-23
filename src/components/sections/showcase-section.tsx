@@ -10,11 +10,11 @@ const placeholderObjects = [
     image:
       "https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/fe037af1-3a03-4523-9afc-31145e2f71c2.jpg",
   },
-  { id: 2, label: "Загородный коттедж", location: "Артём", image: null },
-  { id: 3, label: "Таунхаус", location: "Уссурийск", image: null },
-  { id: 4, label: "Жилой комплекс", location: "Владивосток", image: null },
-  { id: 5, label: "Частная резиденция", location: "Находка", image: null },
-  { id: 6, label: "Дачный дом", location: "Приморский край", image: null },
+  { id: 2, label: "Загородный коттедж", location: "Артём", image: "https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/2e4285d7-4175-45ff-abfd-1cef01a7cfa4.jpg" },
+  { id: 3, label: "Таунхаус", location: "Уссурийск", image: "https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/e37b7f13-132e-4275-9ffd-e0f7a3e8ad15.JPG" },
+  { id: 4, label: "Жилой комплекс", location: "Владивосток", image: "https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/7be7160a-ba17-4d35-a9c6-c8b6730e4e6a.jpeg" },
+  { id: 5, label: "Частная резиденция", location: "Находка", image: "https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/d8759c7c-4445-4f9d-b5f1-7fca95ff766a.jpg" },
+  { id: 6, label: "Дачный дом", location: "Приморский край", image: "https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/c55316e3-640a-4b8e-962d-687ae37530b9.jpg" },
 ]
 
 function Lightbox({
