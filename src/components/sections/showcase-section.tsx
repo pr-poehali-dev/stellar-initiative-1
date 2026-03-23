@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useRef, useState, useEffect, useCallback } from "react"
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import Icon from "@/components/ui/icon"
 
@@ -17,13 +17,35 @@ const placeholderObjects = [
   { id: 6, label: "Дачный дом", location: "Приморский край", image: "https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/c55316e3-640a-4b8e-962d-687ae37530b9.jpg" },
 ]
 
+const images = placeholderObjects.filter((o) => o.image).map((o) => o.image as string)
+
 function Lightbox({
-  src,
+  index,
   onClose,
+  onPrev,
+  onNext,
 }: {
-  src: string
+  index: number
   onClose: () => void
+  onPrev: () => void
+  onNext: () => void
 }) {
+  const src = images[index]
+
+  const handleKey = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose()
+      if (e.key === "ArrowLeft") onPrev()
+      if (e.key === "ArrowRight") onNext()
+    },
+    [onClose, onPrev, onNext]
+  )
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKey)
+    return () => window.removeEventListener("keydown", handleKey)
+  }, [handleKey])
+
   return (
     <AnimatePresence>
       <motion.div
@@ -34,10 +56,9 @@ function Lightbox({
         transition={{ duration: 0.25 }}
         onClick={onClose}
       >
-        {/* backdrop */}
         <div className="absolute inset-0 bg-black/85 backdrop-blur-sm" />
 
-        {/* close button */}
+        {/* close */}
         <button
           className="absolute top-5 right-5 z-10 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"
           onClick={onClose}
@@ -45,17 +66,41 @@ function Lightbox({
           <Icon name="X" size={18} className="text-white" />
         </button>
 
+        {/* counter */}
+        <div className="absolute top-5 left-1/2 -translate-x-1/2 z-10 text-white/60 text-sm tabular-nums">
+          {index + 1} / {images.length}
+        </div>
+
+        {/* prev */}
+        <button
+          className="absolute left-4 z-10 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"
+          onClick={(e) => { e.stopPropagation(); onPrev() }}
+        >
+          <Icon name="ChevronLeft" size={22} className="text-white" />
+        </button>
+
+        {/* next */}
+        <button
+          className="absolute right-4 z-10 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"
+          onClick={(e) => { e.stopPropagation(); onNext() }}
+        >
+          <Icon name="ChevronRight" size={22} className="text-white" />
+        </button>
+
         {/* image */}
-        <motion.img
-          src={src}
-          alt=""
-          className="relative z-10 max-w-[90vw] max-h-[88vh] object-contain rounded-sm shadow-2xl"
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0.9, opacity: 0 }}
-          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          onClick={(e) => e.stopPropagation()}
-        />
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={src}
+            src={src}
+            alt=""
+            className="relative z-10 max-w-[82vw] max-h-[88vh] object-contain rounded-sm shadow-2xl"
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -40 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            onClick={(e) => e.stopPropagation()}
+          />
+        </AnimatePresence>
       </motion.div>
     </AnimatePresence>
   )
@@ -116,10 +161,8 @@ function ObjectCard({
           </motion.div>
         )}
 
-        {/* hover overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-        {/* zoom hint for cards with photo */}
         {item.image && (
           <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <Icon name="ZoomIn" size={14} className="text-white" />
@@ -132,7 +175,7 @@ function ObjectCard({
 
 export function ShowcaseSection() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -149,13 +192,20 @@ export function ShowcaseSection() {
 
   const lineWidth = useTransform(scrollYProgress, [0, 0.4], ["0%", "100%"])
 
+  const handleImageClick = (src: string) => {
+    const idx = images.indexOf(src)
+    if (idx !== -1) setLightboxIndex(idx)
+  }
+
+  const handlePrev = () => setLightboxIndex((i) => i !== null ? (i - 1 + images.length) % images.length : 0)
+  const handleNext = () => setLightboxIndex((i) => i !== null ? (i + 1) % images.length : 0)
+
   return (
     <section
       id="objects"
       ref={containerRef}
       className="relative bg-background overflow-hidden"
     >
-      {/* Top divider */}
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <motion.div
           className="h-px bg-foreground/10"
@@ -164,7 +214,6 @@ export function ShowcaseSection() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 py-24 md:py-32 lg:py-40">
-        {/* Section label */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -177,7 +226,6 @@ export function ShowcaseSection() {
           </span>
         </motion.div>
 
-        {/* Heading */}
         <motion.h2
           className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-serif leading-[1.15] text-foreground max-w-3xl"
           initial={{ opacity: 0, y: 40 }}
@@ -190,7 +238,6 @@ export function ShowcaseSection() {
           <em className="italic text-foreground/70">вдохновляют</em>
         </motion.h2>
 
-        {/* Gallery grid */}
         <div className="mt-14 md:mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
           {placeholderObjects.map((item, i) => (
             <ObjectCard
@@ -198,15 +245,19 @@ export function ShowcaseSection() {
               item={item}
               index={i}
               yOffset={yValues[i]}
-              onImageClick={setLightboxSrc}
+              onImageClick={handleImageClick}
             />
           ))}
         </div>
       </div>
 
-      {/* Lightbox */}
-      {lightboxSrc && (
-        <Lightbox src={lightboxSrc} onClose={() => setLightboxSrc(null)} />
+      {lightboxIndex !== null && (
+        <Lightbox
+          index={lightboxIndex}
+          onClose={() => setLightboxIndex(null)}
+          onPrev={handlePrev}
+          onNext={handleNext}
+        />
       )}
     </section>
   )
