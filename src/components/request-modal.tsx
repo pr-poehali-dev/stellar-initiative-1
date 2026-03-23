@@ -57,7 +57,7 @@ export function RequestModal({ isOpen, onClose, productName }: RequestModalProps
       await fetch("https://functions.poehali.dev/cb392224-9ac2-4ebb-8433-1edb0bd86c17", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, formType: "request" }),
       })
     } finally {
       setIsLoading(false)

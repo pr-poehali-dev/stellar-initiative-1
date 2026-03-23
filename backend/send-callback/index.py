@@ -34,6 +34,7 @@ def handler(event, context):
     name = body.get('name', '').strip() if isinstance(body, dict) else ''
     phone = body.get('phone', '').strip() if isinstance(body, dict) else ''
     comment = body.get('comment', '').strip() if isinstance(body, dict) else ''
+    form_type = body.get('formType', 'callback') if isinstance(body, dict) else 'callback'
 
     if not name or not phone:
         return {'statusCode': 400, 'headers': cors, 'body': json.dumps({'error': 'name and phone are required'})}
@@ -43,13 +44,16 @@ def handler(event, context):
 
     now = datetime.now().strftime('%d.%m.%Y %H:%M')
 
+    is_request = form_type == 'request'
+    form_title = 'Оставили заявку' if is_request else 'Заказали звонок'
+
     msg = MIMEMultipart('alternative')
-    msg['Subject'] = f'Заказали звонок — {name}'
+    msg['Subject'] = f'{form_title} — {name}'
     msg['From'] = smtp_email
     msg['To'] = smtp_email
 
     comment_text = f'\nКомментарий: {comment}' if comment else ''
-    text = f'Заказали звонок\n\nИмя: {name}\nТелефон: {phone}{comment_text}\nДата и время заявки: {now}'
+    text = f'{form_title}\n\nИмя: {name}\nТелефон: {phone}{comment_text}\nДата и время заявки: {now}'
 
     comment_row = f"""
           <tr>
@@ -60,7 +64,7 @@ def handler(event, context):
     html = f"""
     <div style="font-family:Arial,sans-serif;max-width:500px;margin:0 auto;padding:20px;">
       <div style="background:#8B6914;color:white;padding:16px 20px;border-radius:12px 12px 0 0;">
-        <h2 style="margin:0;font-size:18px;">Заказали звонок</h2>
+        <h2 style="margin:0;font-size:18px;">{form_title}</h2>
       </div>
       <div style="border:1px solid #e0e0e0;border-top:none;padding:20px;border-radius:0 0 12px 12px;">
         <table style="width:100%;border-collapse:collapse;">
