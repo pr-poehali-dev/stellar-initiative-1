@@ -148,17 +148,6 @@ export function ShowcaseSection() {
           <em className="italic text-foreground/70">вдохновляют</em>
         </motion.h2>
 
-        {/* Subtext */}
-        <motion.p
-          className="mt-6 text-muted-foreground text-base md:text-lg leading-relaxed max-w-2xl"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.7, delay: 0.15 }}
-        >
-          Реальные фасады из облицовочного кирпича — от наших клиентов
-        </motion.p>
-
         {/* Gallery grid */}
         <div className="mt-14 md:mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
           {placeholderObjects.map((item, i) => (
@@ -170,22 +159,6 @@ export function ShowcaseSection() {
             />
           ))}
         </div>
-
-        {/* Bottom note */}
-        <motion.div
-          className="mt-16 md:mt-20 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <div className="inline-flex items-center gap-3 px-6 py-4 bg-secondary/60 border border-border rounded-sm">
-            <Icon name="Clock" size={16} className="text-muted-foreground" />
-            <p className="text-sm text-muted-foreground">
-              Скоро здесь появятся фотографии реальных объектов наших клиентов
-            </p>
-          </div>
-        </motion.div>
       </div>
     </section>
   )
