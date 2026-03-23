@@ -1,24 +1,76 @@
-import { useRef } from "react"
-import { motion, useScroll, useTransform } from "framer-motion"
+import { useRef, useState } from "react"
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import Icon from "@/components/ui/icon"
 
 const placeholderObjects = [
-  { id: 1, label: "Частный дом", location: "Владивосток" },
-  { id: 2, label: "Загородный коттедж", location: "Артём" },
-  { id: 3, label: "Таунхаус", location: "Уссурийск" },
-  { id: 4, label: "Жилой комплекс", location: "Владивосток" },
-  { id: 5, label: "Частная резиденция", location: "Находка" },
-  { id: 6, label: "Дачный дом", location: "Приморский край" },
+  {
+    id: 1,
+    label: "Частный дом",
+    location: "Владивосток",
+    image:
+      "https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/fe037af1-3a03-4523-9afc-31145e2f71c2.jpg",
+  },
+  { id: 2, label: "Загородный коттедж", location: "Артём", image: null },
+  { id: 3, label: "Таунхаус", location: "Уссурийск", image: null },
+  { id: 4, label: "Жилой комплекс", location: "Владивосток", image: null },
+  { id: 5, label: "Частная резиденция", location: "Находка", image: null },
+  { id: 6, label: "Дачный дом", location: "Приморский край", image: null },
 ]
+
+function Lightbox({
+  src,
+  onClose,
+}: {
+  src: string
+  onClose: () => void
+}) {
+  return (
+    <AnimatePresence>
+      <motion.div
+        className="fixed inset-0 z-50 flex items-center justify-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.25 }}
+        onClick={onClose}
+      >
+        {/* backdrop */}
+        <div className="absolute inset-0 bg-black/85 backdrop-blur-sm" />
+
+        {/* close button */}
+        <button
+          className="absolute top-5 right-5 z-10 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"
+          onClick={onClose}
+        >
+          <Icon name="X" size={18} className="text-white" />
+        </button>
+
+        {/* image */}
+        <motion.img
+          src={src}
+          alt=""
+          className="relative z-10 max-w-[90vw] max-h-[88vh] object-contain rounded-sm shadow-2xl"
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.9, opacity: 0 }}
+          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          onClick={(e) => e.stopPropagation()}
+        />
+      </motion.div>
+    </AnimatePresence>
+  )
+}
 
 function ObjectCard({
   item,
   index,
   yOffset,
+  onImageClick,
 }: {
   item: (typeof placeholderObjects)[0]
   index: number
   yOffset: ReturnType<typeof useTransform>
+  onImageClick: (src: string) => void
 }) {
   return (
     <motion.div
@@ -33,57 +85,46 @@ function ObjectCard({
         ease: [0.16, 1, 0.3, 1],
       }}
     >
-      {/* Placeholder image area */}
-      <div className="relative aspect-[4/5] bg-gradient-to-br from-gray-200 via-gray-100 to-gray-250 overflow-hidden">
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-br from-gray-200 via-gray-150 to-gray-300"
-          whileHover={{ scale: 1.06 }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        >
-          {/* Centered placeholder content */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-            <Icon
-              name="Camera"
-              size={28}
-              className="text-gray-300 group-hover:text-gray-400 transition-colors duration-500"
-            />
-            <span className="text-xs tracking-[0.2em] uppercase text-gray-400 group-hover:text-gray-500 transition-colors duration-500">
-              Фото объекта
-            </span>
-          </div>
-        </motion.div>
+      <div
+        className={`relative aspect-[4/5] overflow-hidden ${item.image ? "cursor-zoom-in" : "bg-gradient-to-br from-gray-200 via-gray-100 to-gray-250"}`}
+        onClick={() => item.image && onImageClick(item.image)}
+      >
+        {item.image ? (
+          <motion.img
+            src={item.image}
+            alt={item.label}
+            className="absolute inset-0 w-full h-full object-contain bg-gray-100"
+            whileHover={{ scale: 1.04 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          />
+        ) : (
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-br from-gray-200 via-gray-150 to-gray-300"
+            whileHover={{ scale: 1.06 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+              <Icon
+                name="Camera"
+                size={28}
+                className="text-gray-300 group-hover:text-gray-400 transition-colors duration-500"
+              />
+              <span className="text-xs tracking-[0.2em] uppercase text-gray-400 group-hover:text-gray-500 transition-colors duration-500">
+                Фото объекта
+              </span>
+            </div>
+          </motion.div>
+        )}
 
-        {/* Hover overlay gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+        {/* hover overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-        {/* Object info — visible on hover */}
-        <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-          <p className="text-white text-base font-serif">{item.label}</p>
-          <p className="text-white/60 text-xs tracking-wide mt-1 flex items-center gap-1.5">
-            <Icon name="MapPin" size={11} />
-            {item.location}
-          </p>
-        </div>
-      </div>
-
-      {/* Card footer - always visible */}
-      <div className="px-4 py-4 bg-background border border-t-0 border-border">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-serif text-foreground">{item.label}</p>
-            <p className="text-[10px] tracking-[0.15em] uppercase text-muted-foreground mt-0.5 flex items-center gap-1">
-              <Icon name="MapPin" size={10} />
-              {item.location}
-            </p>
+        {/* zoom hint for cards with photo */}
+        {item.image && (
+          <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <Icon name="ZoomIn" size={14} className="text-white" />
           </div>
-          <div className="w-8 h-8 rounded-full border border-border flex items-center justify-center group-hover:border-foreground/30 transition-colors duration-300">
-            <Icon
-              name="ArrowUpRight"
-              size={13}
-              className="text-muted-foreground group-hover:text-foreground transition-colors duration-300"
-            />
-          </div>
-        </div>
+        )}
       </div>
     </motion.div>
   )
@@ -91,12 +132,13 @@ function ObjectCard({
 
 export function ShowcaseSection() {
   const containerRef = useRef<HTMLDivElement>(null)
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
   })
 
-  // Create parallax offsets for 6 cards with varying intensities
   const y0 = useTransform(scrollYProgress, [0, 1], [80, -80])
   const y1 = useTransform(scrollYProgress, [0, 1], [120, -120])
   const y2 = useTransform(scrollYProgress, [0, 1], [60, -60])
@@ -156,10 +198,16 @@ export function ShowcaseSection() {
               item={item}
               index={i}
               yOffset={yValues[i]}
+              onImageClick={setLightboxSrc}
             />
           ))}
         </div>
       </div>
+
+      {/* Lightbox */}
+      {lightboxSrc && (
+        <Lightbox src={lightboxSrc} onClose={() => setLightboxSrc(null)} />
+      )}
     </section>
   )
 }
