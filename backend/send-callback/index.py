@@ -44,12 +44,12 @@ def handler(event, context):
     now = datetime.now().strftime('%d.%m.%Y %H:%M')
 
     msg = MIMEMultipart('alternative')
-    msg['Subject'] = f'Заявка с сайта — {name}'
+    msg['Subject'] = f'Заказали звонок — {name}'
     msg['From'] = smtp_email
     msg['To'] = smtp_email
 
     comment_text = f'\nКомментарий: {comment}' if comment else ''
-    text = f'Новая заявка с сайта\n\nИмя: {name}\nТелефон: {phone}{comment_text}\nДата: {now}'
+    text = f'Заказали звонок\n\nИмя: {name}\nТелефон: {phone}{comment_text}\nДата и время заявки: {now}'
 
     comment_row = f"""
           <tr>
@@ -60,7 +60,7 @@ def handler(event, context):
     html = f"""
     <div style="font-family:Arial,sans-serif;max-width:500px;margin:0 auto;padding:20px;">
       <div style="background:#8B6914;color:white;padding:16px 20px;border-radius:12px 12px 0 0;">
-        <h2 style="margin:0;font-size:18px;">📋 Новая заявка с сайта</h2>
+        <h2 style="margin:0;font-size:18px;">Заказали звонок</h2>
       </div>
       <div style="border:1px solid #e0e0e0;border-top:none;padding:20px;border-radius:0 0 12px 12px;">
         <table style="width:100%;border-collapse:collapse;">
@@ -73,7 +73,7 @@ def handler(event, context):
             <td style="padding:8px 0;font-weight:bold;color:#333;">{phone}</td>
           </tr>{comment_row}
           <tr>
-            <td style="padding:8px 0;color:#888;">Дата:</td>
+            <td style="padding:8px 0;color:#888;">Дата и время заявки:</td>
             <td style="padding:8px 0;color:#333;">{now}</td>
           </tr>
         </table>
