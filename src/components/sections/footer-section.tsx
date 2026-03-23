@@ -163,15 +163,6 @@ export function FooterSection() {
                     ) : (
                       <div className="flex flex-wrap gap-3 mt-0.5">
                         <a
-                          href="https://wa.me/89147922784"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="group/btn inline-flex items-center gap-2 px-4 py-2.5 border border-emerald-200/60 bg-emerald-50/50 rounded-lg text-sm text-foreground/70 hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 transition-all duration-300 hover:shadow-md hover:shadow-emerald-500/10"
-                        >
-                          <Icon name="MessageCircle" size={16} className="text-emerald-600 transition-transform duration-300 group-hover/btn:scale-110" />
-                          WhatsApp
-                        </a>
-                        <a
                           href="https://t.me/Yulia_Vis"
                           target="_blank"
                           rel="noopener noreferrer"
