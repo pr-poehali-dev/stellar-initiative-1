@@ -33,6 +33,7 @@ def handler(event, context):
         body = {}
     name = body.get('name', '').strip() if isinstance(body, dict) else ''
     phone = body.get('phone', '').strip() if isinstance(body, dict) else ''
+    comment = body.get('comment', '').strip() if isinstance(body, dict) else ''
 
     if not name or not phone:
         return {'statusCode': 400, 'headers': cors, 'body': json.dumps({'error': 'name and phone are required'})}
@@ -43,27 +44,34 @@ def handler(event, context):
     now = datetime.now().strftime('%d.%m.%Y %H:%M')
 
     msg = MIMEMultipart('alternative')
-    msg['Subject'] = f'Заявка на обратный звонок — {name}'
+    msg['Subject'] = f'Заявка с сайта — {name}'
     msg['From'] = smtp_email
     msg['To'] = smtp_email
 
-    text = f'Новая заявка на обратный звонок\n\nИмя: {name}\nТелефон: {phone}\nДата: {now}'
+    comment_text = f'\nКомментарий: {comment}' if comment else ''
+    text = f'Новая заявка с сайта\n\nИмя: {name}\nТелефон: {phone}{comment_text}\nДата: {now}'
+
+    comment_row = f"""
+          <tr>
+            <td style="padding:8px 0;color:#888;vertical-align:top;">Комментарий:</td>
+            <td style="padding:8px 0;color:#333;">{comment}</td>
+          </tr>""" if comment else ''
 
     html = f"""
     <div style="font-family:Arial,sans-serif;max-width:500px;margin:0 auto;padding:20px;">
-      <div style="background:#2e7d32;color:white;padding:16px 20px;border-radius:12px 12px 0 0;">
-        <h2 style="margin:0;font-size:18px;">📞 Заявка на обратный звонок</h2>
+      <div style="background:#8B6914;color:white;padding:16px 20px;border-radius:12px 12px 0 0;">
+        <h2 style="margin:0;font-size:18px;">📋 Новая заявка с сайта</h2>
       </div>
       <div style="border:1px solid #e0e0e0;border-top:none;padding:20px;border-radius:0 0 12px 12px;">
         <table style="width:100%;border-collapse:collapse;">
           <tr>
-            <td style="padding:8px 0;color:#888;width:100px;">Имя:</td>
+            <td style="padding:8px 0;color:#888;width:120px;">Имя:</td>
             <td style="padding:8px 0;font-weight:bold;color:#333;">{name}</td>
           </tr>
           <tr>
             <td style="padding:8px 0;color:#888;">Телефон:</td>
             <td style="padding:8px 0;font-weight:bold;color:#333;">{phone}</td>
-          </tr>
+          </tr>{comment_row}
           <tr>
             <td style="padding:8px 0;color:#888;">Дата:</td>
             <td style="padding:8px 0;color:#333;">{now}</td>

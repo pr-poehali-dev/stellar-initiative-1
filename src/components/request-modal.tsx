@@ -17,6 +17,7 @@ export function RequestModal({ isOpen, onClose, productName }: RequestModalProps
   })
   const [focusedField, setFocusedField] = useState<string | null>(null)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     if (isOpen) {
@@ -49,9 +50,19 @@ export function RequestModal({ isOpen, onClose, productName }: RequestModalProps
     }
   }, [isOpen, handleKeyDown])
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsSubmitted(true)
+    setIsLoading(true)
+    try {
+      await fetch("https://functions.poehali.dev/cb392224-9ac2-4ebb-8433-1edb0bd86c17", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      })
+    } finally {
+      setIsLoading(false)
+      setIsSubmitted(true)
+    }
   }
 
   return createPortal(
@@ -235,18 +246,21 @@ export function RequestModal({ isOpen, onClose, productName }: RequestModalProps
 
                   <motion.button
                     type="submit"
-                    className="group relative w-full px-8 py-4 bg-gradient-to-r from-amber-700 via-amber-600 to-amber-700 text-white text-sm tracking-wide uppercase font-medium rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-amber-600/20 flex items-center justify-center gap-2"
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.98 }}
+                    disabled={isLoading}
+                    className="group relative w-full px-8 py-4 bg-gradient-to-r from-amber-700 via-amber-600 to-amber-700 text-white text-sm tracking-wide uppercase font-medium rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-amber-600/20 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                    whileHover={{ scale: isLoading ? 1 : 1.01 }}
+                    whileTap={{ scale: isLoading ? 1 : 0.98 }}
                   >
                     <span className="absolute inset-0 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <span className="relative flex items-center gap-2">
-                      Отправить заявку
-                      <Icon
-                        name="ArrowRight"
-                        size={16}
-                        className="transition-transform duration-200 group-hover:translate-x-1"
-                      />
+                      {isLoading ? "Отправка..." : "Отправить заявку"}
+                      {!isLoading && (
+                        <Icon
+                          name="ArrowRight"
+                          size={16}
+                          className="transition-transform duration-200 group-hover:translate-x-1"
+                        />
+                      )}
                     </span>
                   </motion.button>
 
