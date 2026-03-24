@@ -86,6 +86,9 @@ export function CallbackModal({ open, onClose }: CallbackModalProps) {
       if (!res.ok) throw new Error("Ошибка отправки")
       setSent(true)
       fireConfetti()
+      if (typeof window.ym === "function") {
+        window.ym(108194575, "reachGoal", "callback_form_submit")
+      }
     } catch {
       setError("Не удалось отправить заявку. Попробуйте позже.")
     } finally {
