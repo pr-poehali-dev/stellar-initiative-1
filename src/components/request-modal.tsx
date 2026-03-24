@@ -62,6 +62,9 @@ export function RequestModal({ isOpen, onClose, productName }: RequestModalProps
     } finally {
       setIsLoading(false)
       setIsSubmitted(true)
+      if (typeof window.ym === "function") {
+        window.ym(108194575, "reachGoal", "request_form_submit")
+      }
     }
   }
 
