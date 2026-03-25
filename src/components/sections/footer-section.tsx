@@ -172,6 +172,11 @@ export function FooterSection() {
                           target="_blank"
                           rel="noopener noreferrer"
                           className="group/btn inline-flex items-center gap-2 px-4 py-2.5 border border-sky-200/60 bg-sky-50/50 rounded-lg text-sm text-foreground/70 hover:border-sky-300 hover:bg-sky-50 hover:text-sky-700 transition-all duration-300 hover:shadow-md hover:shadow-sky-500/10"
+                          onClick={() => {
+                            if (typeof window.ym === "function") {
+                              window.ym(108194575, "reachGoal", "telegram_click")
+                            }
+                          }}
                         >
                           <Icon name="Send" size={16} className="text-sky-600 transition-transform duration-300 group-hover/btn:scale-110" />
                           Telegram
@@ -181,6 +186,11 @@ export function FooterSection() {
                           target="_blank"
                           rel="noopener noreferrer"
                           className="group/btn inline-flex items-center gap-2 px-4 py-2.5 border border-purple-200/60 bg-purple-50/50 rounded-lg text-sm text-foreground/70 hover:border-purple-300 hover:bg-purple-50 hover:text-purple-700 transition-all duration-300 hover:shadow-md hover:shadow-purple-500/10"
+                          onClick={() => {
+                            if (typeof window.ym === "function") {
+                              window.ym(108194575, "reachGoal", "max_click")
+                            }
+                          }}
                         >
                           <img
                             src="https://cdn.poehali.dev/projects/d658df8b-e030-4797-9e3a-909d5f2118eb/bucket/b126d939-6763-4a47-bd88-84b64566a659.jpeg"
