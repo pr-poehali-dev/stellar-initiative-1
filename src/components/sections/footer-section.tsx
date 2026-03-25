@@ -67,6 +67,11 @@ const contactItems = [
       <a
         href="mailto:vostokinveststal@mail.ru"
         className="text-foreground text-base hover:text-sky-700 transition-colors duration-200"
+        onClick={() => {
+          if (typeof window.ym === "function") {
+            window.ym(108194575, "reachGoal", "email_click")
+          }
+        }}
       >
         vostokinveststal@mail.ru
       </a>
