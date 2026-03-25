@@ -156,7 +156,6 @@ const brickCatalog: BrickItem[] = [
 const pavingStones: BrickItem[] = [
   { manufacturer: "5-й элемент", name: "Мюнхен", tag: "Брусчатка" },
   { manufacturer: "5-й элемент", name: "Красный", tag: "Брусчатка" },
-  { manufacturer: "5-й элемент", name: "Позиция 3", tag: "Брусчатка" },
 ]
 
 const manufacturers = ["Все", "Магма Керамик", "5-й элемент", "Recke", "ЖКЗ", "Старый Оскол"]
